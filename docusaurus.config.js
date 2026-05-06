@@ -9,8 +9,8 @@ const config = {
 
   // Set the production URL of your site here.
   // Update stradivary and koperasi-kegelapan-docs to match your GitHub organisation and repository.
-  url: "https://stradivary.github.io",
-  baseUrl: "/koperasi-kegelapan-docs/",
+  url: "https://docs.ahmadmuzaki.my.id/",
+  baseUrl: "/",
 
   organizationName: "stradivary",
   projectName: "koperasi-kegelapan-docs",
