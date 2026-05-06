@@ -1,6 +1,6 @@
-# MBCS NFC Wallet — Specification Hub
+# Koperasi Kegelapan NFC Wallet — Specification Hub
 
-This site contains the full specification for the **MBCS offline NFC wallet system**: a tap-based payment system that operates without real-time backend connectivity, storing encrypted wallet state on NTAG215 NFC cards.
+This site contains the full specification for the **Koperasi Kegelapan offline NFC wallet system**: a tap-based payment system that operates without real-time backend connectivity, storing encrypted wallet state on NTAG215 NFC cards.
 
 ## Spec Layers
 

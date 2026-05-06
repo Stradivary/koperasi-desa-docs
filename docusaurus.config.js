@@ -2,7 +2,7 @@
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: "MBCS NFC Wallet",
+  title: "Koperasi Kegelapan NFC Wallet",
   tagline:
     "Offline NFC wallet system — system design and technical specifications",
   favicon: "img/favicon.ico",
@@ -51,7 +51,7 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: "MBCS NFC Wallet",
+        title: "Koperasi Kegelapan NFC Wallet",
         items: [
           {
             type: "dropdown",
@@ -107,7 +107,7 @@ const config = {
       },
       footer: {
         style: "dark",
-        copyright: `Copyright © ${new Date().getFullYear()} MBCS. By Stradivary.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Koperasi Kegelapan. By Stradivary.`,
       },
       prism: {
         theme: require("prism-react-renderer").themes.github,

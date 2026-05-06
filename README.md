@@ -1,4 +1,4 @@
-# MBCS NFC Wallet — Documentation
+# Koperasi Kegelapan NFC Wallet — Documentation
 
 Offline NFC wallet system — system design and technical specifications, built with [Docusaurus](https://docusaurus.io/) and authored using [Spec Driven Development (SDD)](#spec-driven-development-sdd).
 
