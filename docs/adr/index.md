@@ -14,6 +14,7 @@ ADRs are cross-cutting — they explain *why* the specs are written the way they
 | [ADR-004](4_offline-trust-model.md) | Deferred-Trust Offline Model | Accepted |
 | [ADR-005](5_hash-chain-log.md) | Hash-Chain Transaction Log | Accepted |
 | [ADR-006](6_balance-ceiling.md) | uint32 Balance with Rp 16 M Ceiling | Accepted |
+| [ADR-007](7_tanstack-start-cloudflare-stack.md) | TanStack Start and Cloudflare Pages/KV/D1 as the Application Platform | Accepted |
 
 ## How to read an ADR
 

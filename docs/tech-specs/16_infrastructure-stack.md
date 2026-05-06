@@ -11,10 +11,11 @@ This section describes the deployment pattern and runtime expectations for the a
 
 ## Deployment pattern
 
-- Serve frontend assets from static hosting (Cloudflare Pages, Vercel, Netlify, or equivalent).
-- Run backend APIs on a Nitro-capable runtime such as Cloudflare Pages Functions, Vercel Serverless, or a Node/Deno server.
-- Cache session grant and blacklist state at the edge or in a fast key-value store (e.g., Cloudflare KV, Redis) for low-latency validation.
-- Use a relational or document store for reconciliation events and audit logs; query patterns are append-heavy with low-frequency reads.
+- Serve frontend assets from **Cloudflare Pages** as the default production host.
+- Run backend APIs on **Cloudflare Pages Functions / Workers runtime** as the default server execution target.
+- Cache session grant and blacklist state in **Cloudflare KV** for low-latency edge validation.
+- Store reconciliation events and audit logs in **Cloudflare D1** as the default relational persistence layer.
+- Alternative hosts or datastores are allowed only as explicit deployment overrides, not as baseline architecture.
 
 ## Latency requirements
 
@@ -36,3 +37,7 @@ This section describes the deployment pattern and runtime expectations for the a
 - Backend must support both online validation and batched offline reconciliation uploads.
 - Use versioned deployment and clear migration steps for card layout changes, API schema updates, and key version rotations.
 - Maintain zero-downtime deployments for the backend; terminals in the field must not be disrupted by backend updates.
+
+## References
+
+- [ADR-007: TanStack Start and Cloudflare Pages/KV/D1 as the Application Platform](../adr/7_tanstack-start-cloudflare-stack.md)
