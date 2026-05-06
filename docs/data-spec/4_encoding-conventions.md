@@ -85,14 +85,14 @@ Key material is never stored on the card or in the backend database. It is store
 
 For each log entry `n`:
 
-$$
-\text{hash}[n] = \text{SHA-256}(\text{deltaTime}_n \| \text{amount}_n \| \text{balanceAfter}_n \| \text{flags}_n \| \text{hash}[n-1])[0..5]
-$$
+```
+hash[n] = SHA-256(deltaTime_n || amount_n || balanceAfter_n || flags_n || hash[n-1])[0..5]
+```
 
 Initialisation for the first entry in a session:
 
-$$
-\text{hash}[0]_{\text{prev}} = \text{startTime} \| \texttt{0x00} \| \texttt{0x00} \quad \text{(4-byte little-endian, zero-padded to 6 bytes)}
-$$
+```
+hash[0]_prev = startTime || 0x00 || 0x00  (4-byte little-endian, zero-padded to 6 bytes)
+```
 
 > Full chain integrity rules: [Tech Specs §14 Transaction Log Format](../tech-specs/14_transaction-log-format.md).
