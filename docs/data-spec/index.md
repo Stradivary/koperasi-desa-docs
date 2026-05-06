@@ -21,5 +21,5 @@ This folder defines **what is stored, where, and in what format** for the offlin
 ## Downstream layers
 
 - API Spec: [docs/api-spec/](../api-spec/index.md)
-- Security Spec: [docs/security-spec/](../security-spec/index.md) *(not yet written)*
-- Test Spec: [docs/test-spec/](../test-spec/index.md) *(not yet written)*
+- Security Spec: `docs/security-spec/` *(not yet written)*
+- Test Spec: `docs/test-spec/` *(not yet written)*
