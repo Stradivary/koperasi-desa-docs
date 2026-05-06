@@ -8,12 +8,12 @@ const config = {
   favicon: "img/favicon.ico",
 
   // Set the production URL of your site here.
-  // Update stradivary and koperasi-desa-docs to match your GitHub organisation and repository.
+  // Update stradivary and koperasi-kegelapan-docs to match your GitHub organisation and repository.
   url: "https://stradivary.github.io",
-  baseUrl: "/koperasi-desa-docs/",
+  baseUrl: "/koperasi-kegelapan-docs/",
 
   organizationName: "stradivary",
-  projectName: "koperasi-desa-docs",
+  projectName: "koperasi-kegelapan-docs",
 
   onBrokenLinks: "throw",
   markdown: {
@@ -36,7 +36,7 @@ const config = {
           sidebarPath: "./sidebars.js",
           // Remove or replace the editUrl with your own GitHub repo URL to enable
           // "Edit this page" links on every doc page.
-          // editUrl: 'https://github.com/stradivary/koperasi-desa-docs/tree/main/',
+          // editUrl: 'https://github.com/stradivary/koperasi-kegelapan-docs/tree/main/',
           routeBasePath: "/",
         },
         blog: false,
@@ -98,7 +98,7 @@ const config = {
             ],
           },
           {
-            href: "https://github.com/stradivary/koperasi-desa-docs",
+            href: "https://github.com/stradivary/koperasi-kegelapan-docs",
             label: "GitHub",
             position: "right",
           },
