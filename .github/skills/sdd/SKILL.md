@@ -87,8 +87,8 @@ Before generating any code:
 ```
 docs/
   product-spec/         # Layer 1
-  system-design/        # Layer 2  ← exists
-  tech-specs/           # Layer 3  ← exists
+  system-design/        # Layer 2
+  tech-specs/           # Layer 3
   api-spec/             # Layer 4
   data-spec/            # Layer 5
   security-spec/        # Layer 6

@@ -79,8 +79,9 @@ const config = {
                 label: "4. API Spec",
               },
               {
-                type: "html",
-                value: '<span class="navbar-item-planned">5. Data Spec <span class="navbar-item-planned__badge">planned</span></span>',
+                type: "docSidebar",
+                sidebarId: "dataSpecSidebar",
+                label: "5. Data Spec",
               },
               {
                 type: "html",
