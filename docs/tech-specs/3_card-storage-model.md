@@ -30,7 +30,7 @@ The active and shadow buffers each have a fixed size of **216 bytes** on NTAG215
 | `version` | 1 B | uint8 | Card layout schema version |
 | `type` | 1 B | uint8 | Payload type or product class identifier |
 | `cardId` | 6 B | bytes | Unique card identifier, set at issuance |
-| `reserved` | 4 B | — | Reserved for future header fields; zero on write |
+| `reserved` | 4 B | — | Reserved for future header fields (e.g. sub-type flags, extended version byte). Must be zeroed on write; ignored on read. Preserves 4-byte alignment of the block. |
 
 ### Identity Block (48 bytes)
 
@@ -41,9 +41,7 @@ The active and shadow buffers each have a fixed size of **216 bytes** on NTAG215
 | `gender` | 1 B | uint8 | Gender code (application-defined) |
 | `status` | 1 B | uint8 | Card status code (see §15) |
 | `createdAt` | 4 B | uint32 | Card issuance timestamp (UTC seconds) |
-| `reserved` | 6 B | — | Reserved; zero on write |
-
-### Wallet + Runtime Block (24 bytes)
+| `reserved` | 6 B | — | Reserved to pad the Identity Block to a multiple of 4 bytes and to allow future fields (e.g. nationality code, extended user metadata). Must be zeroed on write; ignored on read. | (24 bytes)
 
 | Field | Size | Type | Description |
 |-------|------|------|-------------|
@@ -61,7 +59,7 @@ The active and shadow buffers each have a fixed size of **216 bytes** on NTAG215
 | `startTime` | 4 B | uint32 | Session open timestamp (UTC seconds) |
 | `endTime` | 4 B | uint32 | Session close timestamp; zero if session is open |
 | `terminalId` | 2 B | uint16 | Identifier of the terminal that opened the session |
-| `reserved` | 6 B | — | Reserved; zero on write |
+| `reserved` | 6 B | — | Pads the Session Block to 16 bytes for alignment. Reserved for future session fields (e.g. gateId that performed check-in, session type flag). Must be zeroed on write; ignored on read. |
 
 ### Logs (112 bytes — 7 entries × 16 bytes each)
 

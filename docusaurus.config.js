@@ -2,45 +2,46 @@
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'MBCS NFC Wallet',
-  tagline: 'Offline NFC wallet system — system design and technical specifications',
-  favicon: 'img/favicon.ico',
+  title: "MBCS NFC Wallet",
+  tagline:
+    "Offline NFC wallet system — system design and technical specifications",
+  favicon: "img/favicon.ico",
 
   // Set the production URL of your site here.
   // Update stradivary and koperasi-desa-docs to match your GitHub organisation and repository.
-  url: 'https://stradivary.github.io',
-  baseUrl: '/koperasi-desa-docs/',
+  url: "https://stradivary.github.io",
+  baseUrl: "/koperasi-desa-docs/",
 
-  organizationName: 'stradivary',
-  projectName: 'koperasi-desa-docs',
+  organizationName: "stradivary",
+  projectName: "koperasi-desa-docs",
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: "throw",
   markdown: {
     hooks: {
-      onBrokenMarkdownLinks: 'warn',
+      onBrokenMarkdownLinks: "warn",
     },
   },
 
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
+    defaultLocale: "en",
+    locales: ["en"],
   },
 
   presets: [
     [
-      'classic',
+      "classic",
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          sidebarPath: './sidebars.js',
+          sidebarPath: "./sidebars.js",
           // Remove or replace the editUrl with your own GitHub repo URL to enable
           // "Edit this page" links on every doc page.
           // editUrl: 'https://github.com/stradivary/koperasi-desa-docs/tree/main/',
-          routeBasePath: '/',
+          routeBasePath: "/",
         },
         blog: false,
         theme: {
-          customCss: './src/css/custom.css',
+          customCss: "./src/css/custom.css",
         },
       }),
     ],
@@ -50,35 +51,67 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: 'MBCS NFC Wallet',
+        title: "MBCS NFC Wallet",
         items: [
           {
-            type: 'docSidebar',
-            sidebarId: 'systemDesignSidebar',
-            position: 'left',
-            label: 'System Design',
+            type: "dropdown",
+            label: "Spec Layers",
+            position: "left",
+            items: [
+              {
+                type: "docSidebar",
+                sidebarId: "productSpecSidebar",
+                label: "1. Product Spec",
+              },
+              {
+                type: "docSidebar",
+                sidebarId: "systemDesignSidebar",
+                label: "2. System Design",
+              },
+              {
+                type: "docSidebar",
+                sidebarId: "techSpecsSidebar",
+                label: "3. Tech Specs",
+              },
+              {
+                type: "docSidebar",
+                sidebarId: "apiSpecSidebar",
+                label: "4. API Spec",
+              },
+              {
+                type: "html",
+                value: '<span class="navbar-item-planned">5. Data Spec <span class="navbar-item-planned__badge">planned</span></span>',
+              },
+              {
+                type: "html",
+                value: '<span class="navbar-item-planned">6. Security Spec <span class="navbar-item-planned__badge">planned</span></span>',
+              },
+              {
+                type: "html",
+                value: '<span class="navbar-item-planned">7. Test Spec <span class="navbar-item-planned__badge">planned</span></span>',
+              },
+              {
+                type: "docSidebar",
+                sidebarId: "adrSidebar",
+                label: "ADRs",
+              },
+            ],
           },
           {
-            type: 'docSidebar',
-            sidebarId: 'techSpecsSidebar',
-            position: 'left',
-            label: 'Tech Specs',
-          },
-          {
-            href: 'https://github.com/stradivary/koperasi-desa-docs',
-            label: 'GitHub',
-            position: 'right',
+            href: "https://github.com/stradivary/koperasi-desa-docs",
+            label: "GitHub",
+            position: "right",
           },
         ],
       },
       footer: {
-        style: 'dark',
-        copyright: `Copyright © ${new Date().getFullYear()} MBCS. Built with Docusaurus.`,
+        style: "dark",
+        copyright: `Copyright © ${new Date().getFullYear()} MBCS. By Stradivary.`,
       },
       prism: {
-        theme: require('prism-react-renderer').themes.github,
-        darkTheme: require('prism-react-renderer').themes.dracula,
-        additionalLanguages: ['json'],
+        theme: require("prism-react-renderer").themes.github,
+        darkTheme: require("prism-react-renderer").themes.dracula,
+        additionalLanguages: ["json"],
       },
     }),
 };

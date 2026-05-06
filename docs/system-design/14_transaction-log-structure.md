@@ -1,26 +1,25 @@
 # 14. Transaction Log Structure
 
-## Log slots
+## Design
 
-- The card stores a fixed number of transaction log slots.
-- Each slot is a compact 16-byte record with a truncated hash.
-- Older logs may be overwritten in a ring-buffer fashion.
+The card stores a fixed-capacity ring buffer of transaction log entries. Storage is constrained by card capacity; the buffer holds approximately 7 entries on NTAG215.
 
-## Slot format
+Each entry records:
+- The time elapsed since session start (as a delta, not an absolute timestamp)
+- The transaction amount
+- The balance after the transaction
+- The transaction type and operational flags
+- A truncated hash linking this entry to the previous one
 
-- `deltaTime`: 2 bytes
-- `amount`: 3 bytes
-- `balanceAfter`: 4 bytes
-- `flags/type`: 1 byte
-- `hash`: 6 bytes
+## Ring buffer behaviour
 
-## Chain semantics
-
-- The log chain uses a 2-bit state idea to detect slot reuse and ordering.
-- Each log hash is computed from the log data and the previous slot hash.
-- A dedicated chain head in the trailer anchors the current log head.
+- When the buffer is full, the oldest entry is overwritten.
+- The chain continues from the surviving entries — older entries that have been overwritten are no longer individually verifiable, but the surviving chain is still intact.
+- The trailer `rootHash` always points to the hash of the most recent entry (the chain head).
 
 ## Security guarantees
 
-- Any modification to an entry invalidates the subsequent chain.
-- Overwriting the oldest slot is valid only when the ring buffer advances cleanly.
+- Any modification to a surviving entry invalidates its hash and all subsequent hashes.
+- Overwriting the oldest slot is only valid when the ring buffer advances normally — an out-of-order overwrite would break the chain.
+
+> Exact field sizes, flag definitions, and chain anchor computation: [Tech Specs §14 Transaction Log Format](../tech-specs/14_transaction-log-format.md).

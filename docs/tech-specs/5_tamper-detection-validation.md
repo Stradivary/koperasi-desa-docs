@@ -4,6 +4,7 @@
 
 Run checks in this order on every card read. Stop and mark tampered on the first failure.
 
+0. **Uninitialised card pre-check** — if the `magic` field is all `0x00` or all `0xFF`, treat the card as uninitialised (not tampered) and halt. Display "Unactivated card" to the user. Do not proceed to step 1. See [System Design §18](../system-design/18_card-initialisation-state.md).
 1. **Magic and version check** — reject the payload if `magic` does not match the expected value or `version` is unsupported.
 2. **Key version lookup** — reject if no session grant is available for the card's `keyVersion`.
 3. **HMAC verification** — recompute HMAC over encrypted buffer and trailer fields; reject on mismatch.

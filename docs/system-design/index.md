@@ -23,3 +23,4 @@ This folder contains the structured system design for the offline NFC wallet sys
 15. [Blocked Status Rules](15_blocked-status-rules.md)
 16. [Infrastructure Stack](16_infrastructure-stack.md)
 17. [Validation Assumptions](17_validation-assumptions.md)
+18. [Card Initialisation State](18_card-initialisation-state.md)

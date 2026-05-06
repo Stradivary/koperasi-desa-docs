@@ -1,13 +1,36 @@
----
-slug: /
-title: MBCS NFC Wallet Documentation
----
+# MBCS NFC Wallet — Specification Hub
 
-# MBCS NFC Wallet Documentation
+This site contains the full specification for the **MBCS offline NFC wallet system**: a tap-based payment system that operates without real-time backend connectivity, storing encrypted wallet state on NTAG215 NFC cards.
 
-Offline NFC wallet system — system design and technical specifications.
+## Spec Layers
 
-## Documentation Sections
+| Layer | Status | Folder |
+|-------|--------|--------|
+| 1. [Product Spec](product-spec/index.md) | ✅ Complete | `docs/product-spec/` |
+| 2. [System Design](system-design/index.md) | ✅ Complete | `docs/system-design/` |
+| 3. [Tech Specs](tech-specs/index.md) | ✅ Complete | `docs/tech-specs/` |
+| 4. [API Spec](api-spec/index.md) | ✅ Complete | `docs/api-spec/` |
+| 5. Data Spec | 🚧 Planned | `docs/data-spec/` |
+| 6. Security Spec | 🚧 Planned | `docs/security-spec/` |
+| 7. Test Spec | 🚧 Planned | `docs/test-spec/` |
+| [ADRs](adr/index.md) | ✅ Complete | `docs/adr/` |
 
-- **[System Design](system-design/)** — Concepts, state model, and security assumptions for the offline NFC wallet system.
-- **[Tech Specs](tech-specs/)** — Implementation reference for developers.
+## Quick Links
+
+- [Core objective](system-design/1_core-objective.md) — What the system is and why it exists
+- [Acceptance criteria](product-spec/4_acceptance-criteria.md) — AC-01 through AC-14
+- [Card state machine](system-design/4_card-state-machine.md) — IDLE → CHECKED_IN → CHECKED_OUT
+- [Cryptographic model](system-design/8_crypto-model.md) — AES-256-GCM, HMAC-SHA256, HKDF
+- [API overview](api-spec/1_overview.md) — Base URL, auth, error format
+- [Hardware constraints](system-design/2_hardware-constraints.md) — NTAG215 / NTAG216 specs
+
+## Architecture Decision Records
+
+Six key decisions are recorded in the [ADR folder](adr/index.md):
+
+1. [A/B buffer write strategy](adr/1_ab-buffer-write-strategy.md) — NFC write non-atomicity and recovery
+2. [AES-GCM cipher choice](adr/2_aes-gcm.md) — Web Crypto API constraint and AEAD rationale
+3. [NTAG215 production baseline](adr/3_ntag215-baseline.md) — Commodity hardware, byte budget
+4. [Offline trust model](adr/4_offline-trust-model.md) — Session grants, deferred reconciliation
+5. [Hash-chain log](adr/5_hash-chain-log.md) — Tamper-evident on-card transaction log
+6. [Balance ceiling](adr/6_balance-ceiling.md) — uint32 with Rp 16 M operational cap
