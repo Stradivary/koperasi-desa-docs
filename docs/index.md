@@ -10,9 +10,9 @@ This site contains the full specification for the **Koperasi Kegelapan offline N
 | 2. [System Design](system-design/index.md) | ✅ Complete | `docs/system-design/` |
 | 3. [Tech Specs](tech-specs/index.md) | ✅ Complete | `docs/tech-specs/` |
 | 4. [API Spec](api-spec/index.md) | ✅ Complete | `docs/api-spec/` |
-| 5. Data Spec | 🚧 Planned | `docs/data-spec/` |
-| 6. Security Spec | 🚧 Planned | `docs/security-spec/` |
-| 7. Test Spec | 🚧 Planned | `docs/test-spec/` |
+| 5. [Data Spec](data-spec/index.md) | ✅ Complete | `docs/data-spec/` |
+| 6. [Security Spec](security-spec/index.md) | ✅ Complete | `docs/security-spec/` |
+| 7. [Test Spec](test-spec/index.md) | ✅ Complete | `docs/test-spec/` |
 | [ADRs](adr/index.md) | ✅ Complete | `docs/adr/` |
 
 ## Quick Links

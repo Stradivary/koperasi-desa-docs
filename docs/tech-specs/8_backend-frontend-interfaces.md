@@ -13,26 +13,36 @@ This section defines the application contract between the browser UI, terminal f
 - Build the app using TanStack Start conventions: routing, query caching, and state management.
 - Use Web NFC to interact with the card and Web Crypto to validate encryption and authentication.
 - Show clear workflows for reading card details, creating transactions, and reconciling offline events.
-- Store temporary offline events in browser-managed storage (IndexedDB or localStorage) when backend access is unavailable.
+- Store local-first tenant data in IndexedDB: operator session snapshot, card cache, policy cache, and reconciliation outbox. `localStorage` is not sufficient for durable terminal state.
 - Support two UI modes:
   - **Member view**: read-only balance, history, and card status.
   - **Terminal mode**: write-enabled flow for transactions, check-ins, and reconciliation.
+- Require an explicit tenant selector after login when an account belongs to multiple koperasi.
 
 ## Backend architecture
 
 - Run as a Nitro-compatible service with API routes for session grants, policy data, reconciliation, and audit logging.
 - Issue and rotate session grants and key versions.
-- Authenticate terminals, manage risk rules, and validate high-risk operations.
+- Authenticate both devices and human operators, manage tenant-scoped risk rules, and validate high-risk operations.
 - Reconcile offline card events and persist operational logs.
 - Expose a stable API that frontend and terminal code can depend on.
+- Materialize tenant-scoped read models so terminals can hydrate local state quickly after reconnect.
 
 ## Interface contracts
 
 ### Session grants
 
 - Issued by the backend with `keyVersion`, expiry, permitted operations, and backend signature.
+- Bound to `tenantId`, `accountId`, `deviceId`, role scope, and permitted operations.
 - Kept temporarily by terminals; never stored permanently on the card.
 - Validated by the frontend before allowing any state-changing write.
+
+### Local-first sync
+
+- The client maintains a per-tenant local replica for cards, policies, account profile, and unsent reconciliation events.
+- Writes created offline enter an outbox with deterministic idempotency keys.
+- Reconnect flow uploads the outbox first, then pulls server checkpoints for the active tenant.
+- Conflict resolution is server-authoritative for backend records and card-authoritative for unreconciled offline balance until reconciliation completes.
 
 ### Card payloads
 

@@ -14,13 +14,13 @@ The API is currently unversioned. Breaking changes will be introduced via a vers
 
 ## Authentication
 
-All requests require a terminal identity token in the `Authorization` header:
+All authenticated requests require a bearer access token in the `Authorization` header:
 
 ```
-Authorization: Bearer <terminal-token>
+Authorization: Bearer <access-token>
 ```
 
-Terminal tokens are issued by the backend during device commissioning (see [§2 Authentication](2_auth.md)). They identify the device, not an individual operator.
+Access tokens are issued by the backend after successful device and operator authentication (see [§2 Authentication](2_auth.md)). They identify the active tenant, device, and operator role scope.
 
 Scout (member read-only) requests use a separate member token with a reduced permission scope.
 
@@ -51,7 +51,7 @@ All error responses return a JSON body:
 
 ## Rate limiting
 
-Endpoints that issue key material (`/api/session-grant`, `/api/auth/token`) are rate-limited per terminal identity. Exceeding the limit returns `429 Too Many Requests` with a `Retry-After` header.
+Endpoints that issue key material (`/api/session-grant`, `/api/auth/token`) are rate-limited per tenant, per device, and per account identity. Exceeding the limit returns `429 Too Many Requests` with a `Retry-After` header.
 
 ## Offline behaviour
 

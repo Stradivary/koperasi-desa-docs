@@ -10,11 +10,14 @@ This folder defines **what is stored, where, and in what format** for the offlin
 2. [Card Binary Schema](2_card-binary-schema.md) — full binary layout for NFC card payload
 3. [Backend DB Schema](3_backend-db-schema.md) — server-side entities and SQL DDL
 4. [Encoding Conventions & Versioning](4_encoding-conventions.md) — endianness, encoding rules, schema versions, migrations
+5. [Multitenancy, Auth & Local-first Storage](5_multitenancy-auth-local-first.md) — tenant boundaries, account/device/session records, IndexedDB replica and outbox
 
 ## Upstream sources
 
 - System Design §5: [Data Layout](../system-design/5_data-layout.md)
+- System Design §13: [Client Roles & Apps](../system-design/13_client-roles.md)
 - Tech Specs §3: [Card Storage Model](../tech-specs/3_card-storage-model.md)
+- Tech Specs §8: [Backend & Frontend Interfaces](../tech-specs/8_backend-frontend-interfaces.md)
 - Tech Specs §14: [Transaction Log Format](../tech-specs/14_transaction-log-format.md)
 - Tech Specs §15: [Status Codes & Block Rules](../tech-specs/15_status-codes-block-rules.md)
 

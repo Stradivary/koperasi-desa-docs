@@ -21,7 +21,7 @@
 
 - **Purpose**: card issuance, top-up, and lifecycle management.
 - **Operations**: register new cards; write initial payload; top-up balance (requires backend validation); assign or change status; maintain blacklists; issue session grants for offline gate/terminal use.
-- **UI mode**: authenticated staff interface; requires terminal-level backend authentication.
+- **UI mode**: authenticated staff interface; requires both operator login and enrolled-device authentication inside the active tenant.
 - **Key access**: holds a provisioning key for initial card writes; does not hold debit permissions.
 
 ## Gate
