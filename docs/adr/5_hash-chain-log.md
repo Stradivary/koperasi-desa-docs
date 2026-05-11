@@ -34,7 +34,7 @@ rootHash (trailer, HMAC-protected)
 - Insertion of a forged entry is only possible if the attacker can also recompute all subsequent hashes — which requires knowing the session key to maintain a valid `rootHash` HMAC.
 
 **Negative:**
-- A truncated 6-byte hash has a birthday collision probability of approximately $2^{-24}$ for random guessing. An attacker without the session key cannot forge the `rootHash` binding anyway; the 6-byte truncation is a storage trade-off, not a security weakness in this context.
+- A truncated 6-byte hash has a birthday collision probability of approximately 2^{-24} for random guessing. An attacker without the session key cannot forge the `rootHash` binding anyway; the 6-byte truncation is a storage trade-off, not a security weakness in this context.
 - The ring buffer model means old entries are overwritten when the log is full (7 entries on NTAG215). Long sessions with many transactions will lose the earliest entries before reconciliation unless the terminal uploads incrementally.
 - The chain must be re-anchored on every ring-buffer wrap, which requires a trailer write (and thus an HMAC recompute) on every 7th transaction.
 

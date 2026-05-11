@@ -26,7 +26,7 @@ Multiple NXP NTAG variants exist in the Type 2 family: NTAG213 (144 bytes), NTAG
   - Identity and session blocks: ~80 bytes
 - NTAG215 cards are self-purchaseable in small quantities from standard electronics distributors (e.g., AliExpress, Alibaba) without vendor agreements.
 - NTAG215 complies with ISO 14443-3A and NFC Forum Type 2, which is required for Web NFC write access.
-- Per-card cost at retail quantities is ≤ Rp 5,000 (~USD $0.30), which is acceptable for a venue-scale deployment.
+- Per-card cost at retail quantities is ≤ Rp 5,000 (approximately USD 0.30), which is acceptable for a venue-scale deployment.
 
 **NTAG216** is retained as the development and testing baseline:
 - Provides ~872 bytes, which accommodates extended transaction logs (up to 25+ entries), larger payloads, and developer experimentation.

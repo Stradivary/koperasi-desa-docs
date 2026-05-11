@@ -46,9 +46,9 @@ The maximum financial exposure from a compromised terminal operating entirely of
 `E_max = n_terminals × Rp 5,000,000 × ceil(TTL / session length)`
 
 Where:
-- $n_{terminals}$ is the number of compromised terminals
+- `n_terminals` is the number of compromised terminals
 - Rp 5,000,000 is the recommended balance cap (backend policy)
-- $TTL$ is the session grant TTL (backend-controlled, 1–24 hours)
+- `TTL` is the session grant TTL (backend-controlled, 1–24 hours)
 
 Reducing the grant TTL is the primary control for reducing offline exposure. The risk triad — balance ceiling, TTL, and reconciliation frequency — must be reviewed together whenever any one value changes. See ADR §6.
 
