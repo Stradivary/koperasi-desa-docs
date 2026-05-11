@@ -43,7 +43,7 @@ The terminal acts on the grant it holds. Once the grant expires, the terminal mu
 
 The maximum financial exposure from a compromised terminal operating entirely offline is bounded by:
 
-$$E_{max} = n_{terminals} \times \text{Rp 5,000,000} \times \lceil TTL / \text{session length} \rceil$$
+`E_max = n_terminals × Rp 5,000,000 × ceil(TTL / session length)`
 
 Where:
 - $n_{terminals}$ is the number of compromised terminals
