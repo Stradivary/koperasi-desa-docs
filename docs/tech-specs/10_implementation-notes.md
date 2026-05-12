@@ -24,7 +24,9 @@
 ## Stack guidance
 
 - **Frontend**: use TanStack Start for routing, query caching, and UI state management. Use TanStack Query for API calls and optimistic updates.
-- **Backend**: use Nitro APIs for lightweight session grants, policy endpoints, and reconciliation. Nitro's adapter model allows deployment to Cloudflare Workers, Vercel, or Node without code changes.
+- **Backend**: use Nitro APIs for lightweight session grants, policy endpoints, and reconciliation where remote sync is required, but keep the core terminal flow local-first.
+- Treat Cloudflare primarily as a static distribution/CDN layer for frontend assets; do not make backend availability a dependency for active terminal transactions.
+- See ADR-009 and ADR-012 for browser persistence and Cloudflare distribution guidance.
 - Share interface contracts between frontend and backend through common Zod schemas or generated TypeScript types to prevent drift.
 - Avoid duplicating card parsing logic; keep a single canonical implementation that both the terminal flow and the member view import.
 
@@ -34,3 +36,5 @@
 - Roll out card format or API changes in a backward-compatible way: support the old format until all cards are migrated.
 - Document every schema and field change in this spec **before** deploying updates.
 - Use feature flags or `version`-gated logic to enable new card features without breaking existing cards in the field.
+
+> Note: future enhancement may introduce stronger session and device management, richer reconciliation tracking, and broader offline cache schema evolution.

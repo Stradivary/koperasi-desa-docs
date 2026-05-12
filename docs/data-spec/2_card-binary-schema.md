@@ -84,7 +84,9 @@ Each buffer contains the following blocks in fixed order:
 
 > Full state machine and transition rules: [System Design §4 Card State Machine](../system-design/4_card-state-machine.md), [Tech Specs §6 State Machine & Session Rules](../tech-specs/6_state-machine-session-rules.md).
 
-#### Flags layout (3 bytes / 24 bits)
+#### Flags layout
+
+> The 3-byte flags field is defined as follows.
 
 | Bits | Name | Description |
 |------|------|-------------|
@@ -117,7 +119,9 @@ Fixed-capacity ring buffer. When full, the oldest entry is overwritten. Current 
 | `flags/type` | 9 | 1 B | uint8 | Transaction type + flags | See [log flags table](#log-flags) below |
 | `hash` | 10 | 6 B | bytes | Truncated SHA-256 chain hash | `SHA256(deltaTime \|\| amount \|\| balanceAfter \|\| flags \|\| prevHash)[0..5]` |
 
-#### Log flags (`flags/type` field)
+#### Log flags
+
+> The `flags/type` field packs transaction type and status flags into a single byte.
 
 | Bits | Name | Values |
 |------|------|--------|
@@ -154,4 +158,4 @@ The trailer is written **last** in every update cycle. It cryptographically bind
 | Trailer / Meta | 64 B |
 | **Total** | **496 B** |
 
-> This fits within the 504-byte usable user memory of an NTAG215 (132 pages × 4 bytes, minus lock and configuration bytes).
+> This fits within the 504-byte usable user memory of an NTAG215 (126 pages × 4 bytes after lock and configuration bytes), leaving 8 bytes reserved beyond the 496-byte payload.

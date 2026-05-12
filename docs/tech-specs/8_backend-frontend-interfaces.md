@@ -1,6 +1,6 @@
 # 8. Backend & Frontend Interfaces
 
-This section defines the application contract between the browser UI, terminal flows, NFC card payloads, and the backend service. It is written as a practical developer reference for building the app with TanStack Start on the frontend and Nitro on the backend.
+This section defines the application contract between the browser UI, terminal flows, NFC card payloads, and optional backend sync services. It is written as a practical developer reference for building the app with TanStack Start on the frontend and a lightweight backend layer where needed.
 
 ## Purpose
 
@@ -14,19 +14,23 @@ This section defines the application contract between the browser UI, terminal f
 - Use Web NFC to interact with the card and Web Crypto to validate encryption and authentication.
 - Show clear workflows for reading card details, creating transactions, and reconciling offline events.
 - Store local-first tenant data in IndexedDB: operator session snapshot, card cache, policy cache, and reconciliation outbox. `localStorage` is not sufficient for durable terminal state.
-- Support two UI modes:
+- Prefer browser-local execution for terminal workflows; remote calls are only needed for optional sync, audit upload, tenant bootstrap, or policy refresh.
+- Support three UI modes:
   - **Member view**: read-only balance, history, and card status.
   - **Terminal mode**: write-enabled flow for transactions, check-ins, and reconciliation.
-- Require an explicit tenant selector after login when an account belongs to multiple koperasi.
+  - **Admin view**: manage tenants, users, and system settings.
+- Require an explicit tenant selector after login, with scoped path (e.g., `/tenant/:tenantId/terminal`) to ensure all operations are tenant-aware.
 
 ## Backend architecture
 
-- Run as a Nitro-compatible service with API routes for session grants, policy data, reconciliation, and audit logging.
+- Provide a lightweight optional sync/orchestration layer rather than a full transaction runtime.
+- Run as a Nitro-compatible service with API routes for session grants, policy data, reconciliation, and audit logging when remote sync is required.
 - Issue and rotate session grants and key versions.
 - Authenticate both devices and human operators, manage tenant-scoped risk rules, and validate high-risk operations.
 - Reconcile offline card events and persist operational logs.
-- Expose a stable API that frontend and terminal code can depend on.
+- Expose a stable API that frontend and terminal code can depend on for sync and bootstrapping.
 - Materialize tenant-scoped read models so terminals can hydrate local state quickly after reconnect.
+- Do not require backend availability for core card transaction flow while a cached valid local grant exists.
 
 ## Interface contracts
 
@@ -86,3 +90,6 @@ Full endpoint definitions — payloads, error codes, and constraints — are in 
 - Prefer shared type generation or schema references (e.g., Zod schemas or OpenAPI types) to avoid frontend/backend drift.
 - Document all card field or API schema changes in the spec before deployment.
 - Treat the frontend as the canonical place for card validation logic, with backend policies used for trusted decisions and session management.
+- See ADR-008, ADR-010, ADR-011, and ADR-012 for the local-first, tenant-scoped terminal architecture and sync model.
+
+> Note: future enhancement may add more advanced session, device, and reconciliation metadata while preserving the local-first terminal experience.

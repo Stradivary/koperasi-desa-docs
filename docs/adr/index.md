@@ -15,6 +15,11 @@ ADRs are cross-cutting — they explain *why* the specs are written the way they
 | [ADR-005](5_hash-chain-log.md) | Hash-Chain Transaction Log | Accepted |
 | [ADR-006](6_balance-ceiling.md) | uint32 Balance with Rp 16 M Ceiling | Accepted |
 | [ADR-007](7_tanstack-start-cloudflare-stack.md) | TanStack Start and Cloudflare Pages/KV/D1 as the Application Platform | Accepted |
+| [ADR-008](8_local-first-terminal-architecture.md) | Local-First Terminal Architecture with Optional Backend Sync | Accepted |
+| [ADR-009](9_indexeddb-local-persistence.md) | IndexedDB as Primary Browser Persistence with Typed Local State | Accepted |
+| [ADR-010](10_tenant-scoped-local-replicas.md) | Tenant-Scoped Local Replicas and Explicit Tenant Selection | Accepted |
+| [ADR-011](11_outbox-first-reconciliation-sync.md) | Outbox-First Reconciliation Sync and Conflict Resolution | Accepted |
+| [ADR-012](12_cloudflare-distribution-only.md) | Cloudflare as Distribution/CDN with Local-First Offline Operation | Accepted |
 
 ## How to read an ADR
 

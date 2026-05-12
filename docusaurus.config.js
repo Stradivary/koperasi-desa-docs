@@ -84,12 +84,14 @@ const config = {
                 label: "5. Data Spec",
               },
               {
-                type: "html",
-                value: '<span class="navbar-item-planned">6. Security Spec <span class="navbar-item-planned__badge">planned</span></span>',
+                type: "docSidebar",
+                sidebarId: "securitySpecSidebar",
+                label: "6. Security Spec",
               },
               {
-                type: "html",
-                value: '<span class="navbar-item-planned">7. Test Spec <span class="navbar-item-planned__badge">planned</span></span>',
+                type: "docSidebar",
+                sidebarId: "testSpecSidebar",
+                label: "7. Test Spec",
               },
               {
                 type: "docSidebar",
@@ -103,6 +105,11 @@ const config = {
             label: "GitHub",
             position: "right",
           },
+          {
+            href: "https://ahmadmuzaki.my.id",
+            label: "Ahmad Muzaki",
+            position: "right",
+          }
         ],
       },
       footer: {

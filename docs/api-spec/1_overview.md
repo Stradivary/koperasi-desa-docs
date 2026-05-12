@@ -2,7 +2,7 @@
 
 ## Base URL
 
-All endpoints are relative to the backend service root. In production this will be a Cloudflare Worker or compatible edge runtime.
+All endpoints are relative to the backend service root.
 
 ```
 https://<deployment-host>/api/
@@ -10,37 +10,34 @@ https://<deployment-host>/api/
 
 ## Versioning
 
-The API is currently unversioned. Breaking changes will be introduced via a version prefix (e.g. `/api/v2/`) and announced with a deprecation window. The `keyVersion` field on session grants is independent of API versioning.
+The API is currently unversioned. Breaking changes will use a version prefix (e.g. `/api/v2/`) and a deprecation window.
 
 ## Authentication
 
-All authenticated requests require a bearer access token in the `Authorization` header:
+Authenticated requests use a bearer token:
 
 ```
 Authorization: Bearer <access-token>
 ```
 
-Access tokens are issued by the backend after successful device and operator authentication (see [§2 Authentication](2_auth.md)). They identify the active tenant, device, and operator role scope.
-
-Scout (member read-only) requests use a separate member token with a reduced permission scope.
+Access tokens identify the active tenant, operator role, and device context.
 
 ## Common response codes
 
 | Code | Meaning |
 |------|---------|
-| `200 OK` | Request succeeded; body contains the response |
-| `204 No Content` | Request succeeded; no response body |
-| `400 Bad Request` | Malformed or invalid request payload |
-| `401 Unauthorized` | Missing or invalid `Authorization` header |
-| `403 Forbidden` | Valid token but insufficient permissions for this operation |
-| `404 Not Found` | Requested resource does not exist |
-| `409 Conflict` | State conflict (e.g. duplicate event counter, card already registered) |
-| `422 Unprocessable Entity` | Request is well-formed but violates a business rule |
-| `500 Internal Server Error` | Backend fault; safe to retry with exponential backoff |
+| `200` | OK |
+| `204` | No Content |
+| `400` | Bad Request |
+| `401` | Unauthorized |
+| `403` | Forbidden |
+| `404` | Not Found |
+| `409` | Conflict |
+| `422` | Unprocessable Entity |
+| `429` | Too Many Requests |
+| `500` | Internal Server Error |
 
-## Common error body
-
-All error responses return a JSON body:
+All error responses return:
 
 ```json
 {
@@ -49,15 +46,11 @@ All error responses return a JSON body:
 }
 ```
 
-## Rate limiting
-
-Endpoints that issue key material (`/api/session-grant`, `/api/auth/token`) are rate-limited per tenant, per device, and per account identity. Exceeding the limit returns `429 Too Many Requests` with a `Retry-After` header.
-
 ## Offline behaviour
 
-Terminals must tolerate backend unavailability. Only the following operations require connectivity:
-- Fetching a session grant or policy refresh
-- Submitting a reconciliation batch
-- Any card management operation (registration, top-up, block, reissue)
+Terminals should continue working when the backend is unavailable. The backend is required only for:
+- session grants and policy refresh
+- reconciliation uploads
+- card registration, top-up, block, and reissue
 
-See [Tech Specs §8](../tech-specs/8_backend-frontend-interfaces.md) for terminal offline behaviour rules.
+See [Tech Specs §8](../tech-specs/8_backend-frontend-interfaces.md) for offline terminal behaviour.

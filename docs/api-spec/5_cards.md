@@ -1,16 +1,12 @@
 # 5. Cards
 
-Card management operations are available to Station-role terminals only. All endpoints in this section require a token with `"role": "station"` and an active session grant with the relevant `allowedOps` entry.
-
----
+Card endpoints are for station-role operations. The station token must include the appropriate grant scope.
 
 ## `POST /api/cards`
 
-Register a new card with the backend. Called by the Station app after writing the initialisation payload to a blank card.
+Register a new card after writing its initial payload.
 
-**Request headers**: `Authorization: Bearer <station-token>`
-
-**Request body**:
+**Request**:
 ```json
 {
   "cardId": "<6-byte hex>",
@@ -21,15 +17,7 @@ Register a new card with the backend. Called by the Station app after writing th
 }
 ```
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `cardId` | hex string | 6-byte unique card identifier written to the identity block |
-| `userId` | uint32 | Backend user account ID to associate with this card |
-| `name` | string | Cardholder display name (max 32 bytes UTF-8) |
-| `createdAt` | uint32 | UTC seconds of issuance timestamp written to the card |
-| `keyVersion` | uint8 | Key version used during card initialisation |
-
-**Response** (`201 Created`):
+**Response**:
 ```json
 {
   "cardId": "<6-byte hex>",
@@ -40,23 +28,16 @@ Register a new card with the backend. Called by the Station app after writing th
 }
 ```
 
-**Error responses**:
-
-| Code | Error | Cause |
-|------|-------|-------|
-| `403 Forbidden` | `insufficient_role` | Caller is not a station |
-| `409 Conflict` | `card_already_registered` | `cardId` already exists in the backend |
-| `422 Unprocessable Entity` | `invalid_user` | `userId` does not correspond to an active account |
-
----
+Errors:
+- `403 insufficient_role`
+- `409 card_already_registered`
+- `422 invalid_user`
 
 ## `GET /api/cards/:cardId`
 
-Fetch the backend record for a card. Used by Scout (read-only balance/status view) and Station (pre-operation check).
+Fetch the backend record for a card.
 
-**Request headers**: `Authorization: Bearer <token>` (any role)
-
-**Response** (`200 OK`):
+**Response**:
 ```json
 {
   "cardId": "<6-byte hex>",
@@ -69,21 +50,14 @@ Fetch the backend record for a card. Used by Scout (read-only balance/status vie
 }
 ```
 
-**Error responses**:
-
-| Code | Error | Cause |
-|------|-------|-------|
-| `404 Not Found` | `card_not_found` | No registered card with this `cardId` |
-
----
+Errors:
+- `404 card_not_found`
 
 ## `POST /api/cards/:cardId/topup`
 
-Add balance to a card. Requires the Station to be online; no offline top-up is permitted.
+Add balance to a card. Requires station role and online backend connectivity.
 
-**Request headers**: `Authorization: Bearer <station-token>`
-
-**Request body**:
+**Request**:
 ```json
 {
   "amount": 100000,
@@ -92,7 +66,7 @@ Add balance to a card. Requires the Station to be online; no offline top-up is p
 }
 ```
 
-**Response** (`200 OK`):
+**Response**:
 ```json
 {
   "cardId": "<6-byte hex>",
@@ -103,24 +77,17 @@ Add balance to a card. Requires the Station to be online; no offline top-up is p
 }
 ```
 
-**Error responses**:
-
-| Code | Error | Cause |
-|------|-------|-------|
-| `403 Forbidden` | `insufficient_role` | Caller is not a station |
-| `404 Not Found` | `card_not_found` | Card not registered |
-| `422 Unprocessable Entity` | `balance_ceiling_exceeded` | `balanceAfter` would exceed `maxBalance` |
-| `422 Unprocessable Entity` | `card_blocked` | Card is in any blocked status; top-up is not allowed |
-
----
+Errors:
+- `403 insufficient_role`
+- `404 card_not_found`
+- `422 balance_ceiling_exceeded`
+- `422 card_blocked`
 
 ## `POST /api/cards/:cardId/block`
 
-Administratively block a card. Sets status to `BLOCKED_ADMIN` on the backend record. The Station app must then write the updated status to the physical card.
+Mark a card as administratively blocked.
 
-**Request headers**: `Authorization: Bearer <station-token>`
-
-**Request body**:
+**Request**:
 ```json
 {
   "reason": "lost",
@@ -129,9 +96,7 @@ Administratively block a card. Sets status to `BLOCKED_ADMIN` on the backend rec
 }
 ```
 
-`reason` must be one of: `lost`, `stolen`, `fraud`, `decommission`.
-
-**Response** (`200 OK`):
+**Response**:
 ```json
 {
   "cardId": "<6-byte hex>",
@@ -141,34 +106,25 @@ Administratively block a card. Sets status to `BLOCKED_ADMIN` on the backend rec
 }
 ```
 
-**Error responses**:
-
-| Code | Error | Cause |
-|------|-------|-------|
-| `403 Forbidden` | `insufficient_role` | Caller is not a station |
-| `404 Not Found` | `card_not_found` | Card not registered |
-| `409 Conflict` | `already_blocked` | Card is already in a blocked status |
-
----
+Errors:
+- `403 insufficient_role`
+- `404 card_not_found`
+- `409 already_blocked`
 
 ## `POST /api/cards/:cardId/reissue`
 
-Authorise a blocked card for re-issuance. The backend marks the card as clearable and issues a station session grant with the `reissue` operation. The Station app must physically re-write the card payload.
+Authorize a blocked card for re-issuance.
 
-> Re-issuance for `BLOCKED_TAMPER` and `BLOCKED_FRAUD` requires explicit backend authorization. See [Tech Specs §15](../tech-specs/15_status-codes-block-rules.md).
-
-**Request headers**: `Authorization: Bearer <station-token>`
-
-**Request body**:
+**Request**:
 ```json
 {
   "operatorId": 7,
-  "authCode": "<one-time backend-issued authorisation code>",
+  "authCode": "<authorization code>",
   "timestamp": 1746702000
 }
 ```
 
-**Response** (`200 OK`):
+**Response**:
 ```json
 {
   "cardId": "<6-byte hex>",
@@ -178,11 +134,8 @@ Authorise a blocked card for re-issuance. The backend marks the card as clearabl
 }
 ```
 
-**Error responses**:
-
-| Code | Error | Cause |
-|------|-------|-------|
-| `403 Forbidden` | `insufficient_role` | Caller is not a station |
-| `403 Forbidden` | `reissue_not_authorised` | Backend authorisation code missing or expired |
-| `404 Not Found` | `card_not_found` | Card not registered |
-| `422 Unprocessable Entity` | `card_not_blocked` | Card is `ACTIVE`; reissue is not applicable |
+Errors:
+- `403 insufficient_role`
+- `403 reissue_not_authorised`
+- `404 card_not_found`
+- `422 card_not_blocked`

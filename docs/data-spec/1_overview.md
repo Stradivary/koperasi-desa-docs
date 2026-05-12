@@ -7,7 +7,7 @@ The offline NFC wallet system has three distinct storage areas, each owned by a 
 | Area | Location | Owner | Access |
 |------|----------|-------|--------|
 | **Card binary payload** | NTAG215 NFC chip | Terminal / card hardware | Read: any terminal or gate app. Write: terminal or station with valid session grant |
-| **Backend database** | Server (PostgreSQL) | Backend service | Read/write: backend API only. Never accessed directly by terminals |
+| **Backend database** | Server (SQLite or equivalent lightweight SQL database) | Backend service | Read/write: backend API only. Never accessed directly by terminals |
 | **Local-first replica** | Browser IndexedDB on enrolled device | Tenant-scoped client runtime | Read/write: authenticated app only; stores cached policies, account context, card snapshots, and queued outbox events |
 
 ## Data flow
@@ -31,10 +31,12 @@ Card payload (binary)
         │
         │  SQL
         ▼
-  PostgreSQL database
+  Lightweight SQL database (SQLite or equivalent)
 ```
 
 Card state is the **primary source of truth for offline operations**. The backend database is the **reconciliation and audit record**. The local-first replica is a **derived working set** used to keep tenant context, queued mutations, and recent reads available without connectivity. In cases of conflict, the backend audit log wins for server records and the card wins for unreconciled on-card balance until reconciliation completes (see [System Design §4](../system-design/4_card-state-machine.md) and [Tech Specs §5](../tech-specs/5_tamper-detection-validation.md)).
+
+> Note: future iterations may add stronger backend session tracking and audit metadata while preserving the local-first card and tenant replica model.
 
 ## Ownership rules
 
@@ -46,13 +48,10 @@ Card state is the **primary source of truth for offline operations**. The backen
 
 ## What is NOT stored
 
-The following data is intentionally absent from both storage areas:
+The following data is intentionally excluded from the storage model:
 
-| Excluded | Reason |
-|----------|--------|
-| Session keys | Held in terminal process memory only; never persisted (see [Tech Specs §12](../tech-specs/12_key-hierarchy-session-grants.md)) |
-| Raw access tokens and plaintext refresh tokens | Stored only in secure client storage or as server-side hashes; never persisted in plaintext application tables |
-| Backend session grant payloads | Ephemeral; not persisted server-side after issuance |
-| Raw NDEF / NFC low-level protocol frames | Out of scope; handled by the NFC hardware layer |
-| Password hashes derived outside the auth boundary | Password verification belongs to the auth subsystem only; downstream business tables reference `accountId` rather than credential material |
-| Personally identifiable data beyond `name` and `userId` | Minimised by design; see [Product Spec §5 Out of Scope](../product-spec/5_out-of-scope.md) |
+- Session keys: kept in terminal memory only.
+- Raw access tokens and plaintext refresh tokens: never persisted in plaintext tables.
+- Backend session grant payloads: ephemeral and not stored long-term.
+- Low-level NFC protocol frames: handled by hardware, not persisted in the app.
+- Excess PII beyond `name` and `userId`: minimized by design.
