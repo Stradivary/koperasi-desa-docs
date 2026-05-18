@@ -2,15 +2,15 @@
 
 ## Storage classification
 
-| Storage area | Classification | Encryption at rest | Access control |
-|-------------|---------------|-------------------|----------------|
-| NFC card payload | Financial — sensitive | AES-256-GCM (application-level) | Requires valid session grant to write |
-| Backend database (PostgreSQL) | Financial + PII | Database-level TDE + tenant isolation | Backend API only; no direct client access |
-| Secrets manager (Vault / KV) | Secret | Platform-level encryption | Backend service identity only |
-| IndexedDB — `operatorSession` | Sensitive | AES-256-GCM via WebCrypto | Active authenticated session only |
-| IndexedDB — `cardSnapshot` | Internal | None required (no PII, no key material) | Active authenticated session only |
-| IndexedDB — `reconciliationOutbox` | Internal | None required (no key material) | Active authenticated session only |
-| Browser `localStorage` | Not used for sensitive data | N/A | — |
+| Storage area                       | Classification              | Encryption at rest                      | Access control                            |
+| ---------------------------------- | --------------------------- | --------------------------------------- | ----------------------------------------- |
+| NFC card payload                   | Financial — sensitive       | AES-256-GCM (application-level)         | Requires valid session grant to write     |
+| Backend database (PostgreSQL)      | Financial + PII             | Database-level TDE + tenant isolation   | Backend API only; no direct client access |
+| Secrets manager (Vault / KV)       | Secret                      | Platform-level encryption               | Backend service identity only             |
+| IndexedDB — `operatorSession`      | Sensitive                   | AES-256-GCM via WebCrypto               | Active authenticated session only         |
+| IndexedDB — `cardSnapshot`         | Internal                    | None required (no PII, no key material) | Active authenticated session only         |
+| IndexedDB — `reconciliationOutbox` | Internal                    | None required (no key material)         | Active authenticated session only         |
+| Browser `localStorage`             | Not used for sensitive data | N/A                                     | —                                         |
 
 ---
 
@@ -18,14 +18,14 @@
 
 The following personal data is intentionally excluded or limited:
 
-| Data | Decision |
-|------|----------|
-| Member full name on card | Excluded from card binary; stored server-side only |
-| National ID / IC number | Not collected; out of scope (see Product Spec §5) |
-| Biometric data | Not collected at any layer |
-| Location data | Not collected; no GPS or IP-to-location inference stored |
-| Device hardware fingerprint | Only the enrolled `device_id` (UUID) is stored; no raw fingerprint |
-| Operator email | Stored as `username` in `accounts`; protected by Argon2id password hash |
+| Data                        | Decision                                                                |
+| --------------------------- | ----------------------------------------------------------------------- |
+| Member full name on card    | Excluded from card binary; stored server-side only                      |
+| National ID / IC number     | Not collected; out of scope (see Product Spec §5)                       |
+| Biometric data              | Not collected at any layer                                              |
+| Location data               | Not collected; no GPS or IP-to-location inference stored                |
+| Device hardware fingerprint | Only the enrolled `device_id` (UUID) is stored; no raw fingerprint      |
+| Operator email              | Stored as `username` in `accounts`; protected by Argon2id password hash |
 
 PII stored on the backend is limited to: operator username/display name, member name, and the join between `user_id` and `card_id`. No government-issued identifier is stored.
 

@@ -34,21 +34,22 @@ See [spec-layers.md](./references/spec-layers.md) for full definitions and templ
 
 Scan the workspace for spec coverage across all 7 layers. Report a table:
 
-| Layer | Status | Location | Gaps |
-|-------|--------|----------|------|
-| Product Spec | ✅ / ⚠️ partial / ❌ missing | path | notes |
-| System Design | ... | | |
-| Tech Specs | ... | | |
-| API Spec | ... | | |
-| Data Spec | ... | | |
-| Security Spec | ... | | |
-| Test Spec | ... | | |
+| Layer         | Status                       | Location | Gaps  |
+| ------------- | ---------------------------- | -------- | ----- |
+| Product Spec  | ✅ / ⚠️ partial / ❌ missing | path     | notes |
+| System Design | ...                          |          |       |
+| Tech Specs    | ...                          |          |       |
+| API Spec      | ...                          |          |       |
+| Data Spec     | ...                          |          |       |
+| Security Spec | ...                          |          |       |
+| Test Spec     | ...                          |          |       |
 
 Use the folder conventions from [spec-layers.md](./references/spec-layers.md).
 
 ### Step 2 — Identify the Target
 
 From the user's argument (feature, system, gap):
+
 - Determine which layers are needed for this scope.
 - Identify which layers have **conflicting or stale** content.
 - List which layers are **missing entirely**.
@@ -58,6 +59,7 @@ From the user's argument (feature, system, gap):
 Always write (or update) from Layer 1 downward. Never write a lower layer without its parent.
 
 For each layer to write:
+
 1. Load the template from [spec-layers.md](./references/spec-layers.md)
 2. Extract constraints from the layer above
 3. Draft the spec section by section
@@ -67,6 +69,7 @@ For each layer to write:
 ### Step 4 — Consistency Check
 
 After writing, verify:
+
 - [ ] Every claim in Layer N is traceable to a Layer N-1 source
 - [ ] Every interface in Tech Specs has a matching entry in API Spec
 - [ ] Every stored field in Data Spec appears in Tech Specs
@@ -76,6 +79,7 @@ After writing, verify:
 ### Step 5 — Code Generation Gate
 
 Before generating any code:
+
 - Confirm Layers 1–3 exist for the feature
 - Confirm the relevant Data Spec and API Spec entries exist
 - If gaps remain, **write the spec first**, then generate code
@@ -97,6 +101,7 @@ docs/
 ```
 
 Each folder should have:
+
 - `index.md` — table of contents + purpose statement
 - `_category_.json` — Docusaurus sidebar config
 - Numbered files: `1_topic.md`, `2_topic.md`, ...
@@ -122,6 +127,7 @@ Titles use sentence case. File names use kebab-case with numeric prefix.
 ## Quality Gates
 
 A spec is **complete** when it answers:
+
 - **Who** uses this (roles, trust level)
 - **What** it does (behavior, not implementation)
 - **Why** it exists (constraints, goals)
@@ -155,6 +161,7 @@ vscode_askQuestions({
 ```
 
 Rules for generating the "What's next?" options:
+
 1. Always include 3–5 options, ordered by recommended priority (most important first).
 2. Derive options from the actual gaps or outputs of the current response — never use generic placeholders.
 3. The `label` should be a short verb phrase (e.g., "Write Product Spec", "Add ADR for A/B buffer").

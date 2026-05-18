@@ -2,18 +2,18 @@
 
 ## Permission matrix
 
-| Operation | Station | Gate | Terminal | Member view |
-|-----------|---------|------|----------|-------------|
-| Read card state | ✓ | ✓ | ✓ | ✓ |
-| Issue / re-key card | ✓ | − | − | − |
-| Top-up balance | ✓ | − | − | − |
-| Check-in (open session) | − | ✓ | − | − |
-| Check-out (close session) | − | ✓ | − | − |
-| Debit transaction | − | − | ✓ | − |
-| Block card | ✓ | ∓ | ∓ | − |
-| View transaction logs | ✓ | ✓ | ✓ | ✓ |
-| Upload reconciliation | ∓ | ∓ | ✓ | − |
-| Manage blacklists | ✓ | − | − | − |
+| Operation                 | Station | Gate | Terminal | Member view |
+| ------------------------- | ------- | ---- | -------- | ----------- |
+| Read card state           | ✓       | ✓    | ✓        | ✓           |
+| Issue / re-key card       | ✓       | −    | −        | −           |
+| Top-up balance            | ✓       | −    | −        | −           |
+| Check-in (open session)   | −       | ✓    | −        | −           |
+| Check-out (close session) | −       | ✓    | −        | −           |
+| Debit transaction         | −       | −    | ✓        | −           |
+| Block card                | ✓       | ∓    | ∓        | −           |
+| View transaction logs     | ✓       | ✓    | ✓        | ✓           |
+| Upload reconciliation     | ∓       | ∓    | ✓        | −           |
+| Manage blacklists         | ✓       | −    | −        | −           |
 
 (✓ = always allowed, ∓ = allowed in specific conditions, − = not allowed)
 

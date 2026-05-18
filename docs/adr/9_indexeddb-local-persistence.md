@@ -40,12 +40,12 @@ Use **IndexedDB** as the primary browser-local persistence layer for terminal st
 
 ## Alternatives Considered
 
-| Option | Reason Rejected |
-|--------|-----------------|
-| **localStorage** | Insufficient capacity, synchronous I/O, not durable enough for terminal workflows. |
-| **Service Worker Cache / Cache Storage** | Not designed for structured transactional data or fine-grained schema control. |
-| **Remote persistence only** | Breaks offline-first requirements and increases dependency on backend availability. |
-| **Custom IndexedDB wrapper without typed layer** | Increases risk of schema drift and developer errors. |
+| Option                                           | Reason Rejected                                                                     |
+| ------------------------------------------------ | ----------------------------------------------------------------------------------- |
+| **localStorage**                                 | Insufficient capacity, synchronous I/O, not durable enough for terminal workflows.  |
+| **Service Worker Cache / Cache Storage**         | Not designed for structured transactional data or fine-grained schema control.      |
+| **Remote persistence only**                      | Breaks offline-first requirements and increases dependency on backend availability. |
+| **Custom IndexedDB wrapper without typed layer** | Increases risk of schema drift and developer errors.                                |
 
 ## References
 

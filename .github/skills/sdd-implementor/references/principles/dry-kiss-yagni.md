@@ -1,6 +1,7 @@
 # DRY / KISS / YAGNI
 
 ## DRY — Don't Repeat Yourself
+
 > Every piece of knowledge must have a single, unambiguous, authoritative representation.
 
 **Violation signals:** Same validation logic in controller AND service AND model.
@@ -12,6 +13,7 @@
 ---
 
 ## KISS — Keep It Simple, Stupid
+
 > The simplest solution that satisfies the spec is correct. Complexity is a liability.
 
 **Violation signals:** Abstract factory of factories for a feature with one implementation.
@@ -23,6 +25,7 @@
 ---
 
 ## YAGNI — You Aren't Gonna Need It
+
 > Don't implement features or abstractions until the spec requires them.
 
 **Violation signals:** "I'll add a plugin system in case we need it later."
@@ -34,6 +37,7 @@
 ---
 
 ## Checklist
+
 - [ ] Is this logic duplicated elsewhere? → Extract it.
 - [ ] Is this abstraction used in more than one place? → If no, remove it.
 - [ ] Is this feature in a spec? → If no, don't build it.

@@ -24,17 +24,17 @@ Access tokens identify the active tenant, operator role, and device context.
 
 ## Common response codes
 
-| Code | Meaning |
-|------|---------|
-| `200` | OK |
-| `204` | No Content |
-| `400` | Bad Request |
-| `401` | Unauthorized |
-| `403` | Forbidden |
-| `404` | Not Found |
-| `409` | Conflict |
-| `422` | Unprocessable Entity |
-| `429` | Too Many Requests |
+| Code  | Meaning               |
+| ----- | --------------------- |
+| `200` | OK                    |
+| `204` | No Content            |
+| `400` | Bad Request           |
+| `401` | Unauthorized          |
+| `403` | Forbidden             |
+| `404` | Not Found             |
+| `409` | Conflict              |
+| `422` | Unprocessable Entity  |
+| `429` | Too Many Requests     |
 | `500` | Internal Server Error |
 
 All error responses return:
@@ -49,6 +49,7 @@ All error responses return:
 ## Offline behaviour
 
 Terminals should continue working when the backend is unavailable. The backend is required only for:
+
 - session grants and policy refresh
 - reconciliation uploads
 - card registration, top-up, block, and reissue

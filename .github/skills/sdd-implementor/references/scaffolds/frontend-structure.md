@@ -5,6 +5,7 @@ Frontend stack: **React + TypeScript + Web**. All scaffolds use `.tsx`/`.ts` fil
 Use this reference when scaffolding a frontend feature from SDD specs.
 
 ## React + TypeScript — Feature-Sliced Structure (recommended)
+
 ```
 src/
   features/
@@ -50,17 +51,20 @@ src/
 ```
 
 ## Layer Responsibilities
-| Layer | Imports from | Must NOT import |
-|-------|-------------|----------------|
-| `types/` | nothing | anything |
-| `repositories/` | `types/`, `api/` | React, components, store |
-| `queries/` | `repositories/`, React Query | store, components |
-| `viewmodels/` | `repositories/`, `types/` | React components, JSX |
-| `store/` | `types/` | repositories, queries |
-| `components/` | all of the above | nothing from sibling features |
+
+| Layer           | Imports from                 | Must NOT import               |
+| --------------- | ---------------------------- | ----------------------------- |
+| `types/`        | nothing                      | anything                      |
+| `repositories/` | `types/`, `api/`             | React, components, store      |
+| `queries/`      | `repositories/`, React Query | store, components             |
+| `viewmodels/`   | `repositories/`, `types/`    | React components, JSX         |
+| `store/`        | `types/`                     | repositories, queries         |
+| `components/`   | all of the above             | nothing from sibling features |
 
 ## File Header Convention
+
 Every generated file should start with:
+
 ```ts
 // Feature: <feature-name>
 // Spec:    <layer> §<section> — <claim>
@@ -68,10 +72,10 @@ Every generated file should start with:
 ```
 
 ## When to Use React Query vs. Zustand/Redux
-| Data Type | Tool |
-|-----------|------|
-| API responses, server state | React Query (`useQuery`, `useMutation`) |
-| UI state (modals, selections) | Zustand store or Redux slice |
-| Shared cross-feature UI state | Redux slice |
-| Form state | React Hook Form + Zod |
 
+| Data Type                     | Tool                                    |
+| ----------------------------- | --------------------------------------- |
+| API responses, server state   | React Query (`useQuery`, `useMutation`) |
+| UI state (modals, selections) | Zustand store or Redux slice            |
+| Shared cross-feature UI state | Redux slice                             |
+| Form state                    | React Hook Form + Zod                   |

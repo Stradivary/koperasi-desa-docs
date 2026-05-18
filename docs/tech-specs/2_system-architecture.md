@@ -29,11 +29,11 @@ This section describes how the browser app, terminal, NFC card, and backend serv
 
 ## Connectivity states
 
-| State | Session grant | Writes | Reconciliation |
-|-------|--------------|--------|----------------|
-| Online | Fresh from backend | Allowed | Immediate upload |
-| Offline (valid grant) | Cached | Allowed within grant scope | Queued |
-| Offline (expired grant) | None | Blocked | Queued |
+| State                   | Session grant      | Writes                     | Reconciliation   |
+| ----------------------- | ------------------ | -------------------------- | ---------------- |
+| Online                  | Fresh from backend | Allowed                    | Immediate upload |
+| Offline (valid grant)   | Cached             | Allowed within grant scope | Queued           |
+| Offline (expired grant) | None               | Blocked                    | Queued           |
 
 ## Error handling
 

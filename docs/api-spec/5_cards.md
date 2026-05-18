@@ -7,6 +7,7 @@ Card endpoints are for station-role operations. The station token must include t
 Register a new card after writing its initial payload.
 
 **Request**:
+
 ```json
 {
   "cardId": "<6-byte hex>",
@@ -18,6 +19,7 @@ Register a new card after writing its initial payload.
 ```
 
 **Response**:
+
 ```json
 {
   "cardId": "<6-byte hex>",
@@ -29,6 +31,7 @@ Register a new card after writing its initial payload.
 ```
 
 Errors:
+
 - `403 insufficient_role`
 - `409 card_already_registered`
 - `422 invalid_user`
@@ -38,6 +41,7 @@ Errors:
 Fetch the backend record for a card.
 
 **Response**:
+
 ```json
 {
   "cardId": "<6-byte hex>",
@@ -51,6 +55,7 @@ Fetch the backend record for a card.
 ```
 
 Errors:
+
 - `404 card_not_found`
 
 ## `POST /api/cards/:cardId/topup`
@@ -58,6 +63,7 @@ Errors:
 Add balance to a card. Requires station role and online backend connectivity.
 
 **Request**:
+
 ```json
 {
   "amount": 100000,
@@ -67,6 +73,7 @@ Add balance to a card. Requires station role and online backend connectivity.
 ```
 
 **Response**:
+
 ```json
 {
   "cardId": "<6-byte hex>",
@@ -78,6 +85,7 @@ Add balance to a card. Requires station role and online backend connectivity.
 ```
 
 Errors:
+
 - `403 insufficient_role`
 - `404 card_not_found`
 - `422 balance_ceiling_exceeded`
@@ -88,6 +96,7 @@ Errors:
 Mark a card as administratively blocked.
 
 **Request**:
+
 ```json
 {
   "reason": "lost",
@@ -97,6 +106,7 @@ Mark a card as administratively blocked.
 ```
 
 **Response**:
+
 ```json
 {
   "cardId": "<6-byte hex>",
@@ -107,6 +117,7 @@ Mark a card as administratively blocked.
 ```
 
 Errors:
+
 - `403 insufficient_role`
 - `404 card_not_found`
 - `409 already_blocked`
@@ -116,6 +127,7 @@ Errors:
 Authorize a blocked card for re-issuance.
 
 **Request**:
+
 ```json
 {
   "operatorId": 7,
@@ -125,6 +137,7 @@ Authorize a blocked card for re-issuance.
 ```
 
 **Response**:
+
 ```json
 {
   "cardId": "<6-byte hex>",
@@ -135,6 +148,7 @@ Authorize a blocked card for re-issuance.
 ```
 
 Errors:
+
 - `403 insufficient_role`
 - `403 reissue_not_authorised`
 - `404 card_not_found`

@@ -2,24 +2,24 @@
 
 ## Valid states
 
-| State | Code | Description |
-|-------|------|-------------|
-| `IDLE` | `0` | Card is issued but no session is open |
-| `CHECKED_IN` | `1` | Gate has opened a session; terminal operations are permitted |
-| `TERMINAL_OPERATION` | `2` | A terminal is actively processing a transaction |
-| `CHECKED_OUT` | `3` | Session has been closed by a gate or timeout |
+| State                | Code | Description                                                  |
+| -------------------- | ---- | ------------------------------------------------------------ |
+| `IDLE`               | `0`  | Card is issued but no session is open                        |
+| `CHECKED_IN`         | `1`  | Gate has opened a session; terminal operations are permitted |
+| `TERMINAL_OPERATION` | `2`  | A terminal is actively processing a transaction              |
+| `CHECKED_OUT`        | `3`  | Session has been closed by a gate or timeout                 |
 
 > **Note**: `BLOCKED` is a **status**, not a state. Status and state are independent dimensions stored in separate card fields. A blocked card can be in any state; the `status` field overrides all session logic. See [§15 Status Codes & Block Rules](15_status-codes-block-rules.md) for status codes and block enforcement.
 
 ## State transitions
 
-| From | To | Trigger | Condition |
-|------|----|---------|----------|
-| `IDLE` | `CHECKED_IN` | Gate check-in | Valid session grant; `status == ACTIVE` |
-| `CHECKED_IN` | `TERMINAL_OPERATION` | Terminal begins transaction | Valid session grant; `state == CHECKED_IN`; `status == ACTIVE` |
-| `TERMINAL_OPERATION` | `CHECKED_IN` | Transaction completes | Write verified; counter incremented |
-| `CHECKED_IN` | `CHECKED_OUT` | Gate check-out | Session was open |
-| `CHECKED_OUT` | `IDLE` | Session reset | Applied on next issuance or explicit reset |
+| From                 | To                   | Trigger                     | Condition                                                      |
+| -------------------- | -------------------- | --------------------------- | -------------------------------------------------------------- |
+| `IDLE`               | `CHECKED_IN`         | Gate check-in               | Valid session grant; `status == ACTIVE`                        |
+| `CHECKED_IN`         | `TERMINAL_OPERATION` | Terminal begins transaction | Valid session grant; `state == CHECKED_IN`; `status == ACTIVE` |
+| `TERMINAL_OPERATION` | `CHECKED_IN`         | Transaction completes       | Write verified; counter incremented                            |
+| `CHECKED_IN`         | `CHECKED_OUT`        | Gate check-out              | Session was open                                               |
+| `CHECKED_OUT`        | `IDLE`               | Session reset               | Applied on next issuance or explicit reset                     |
 
 ## Session rules
 

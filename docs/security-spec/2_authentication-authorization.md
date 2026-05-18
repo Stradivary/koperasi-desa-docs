@@ -4,10 +4,10 @@
 
 Every privileged request must satisfy both layers. Failure in either layer results in `401 Unauthorized`.
 
-| Layer | What is proved | Mechanism |
-|-------|----------------|-----------|
-| Device identity | This browser installation is an enrolled terminal for the koperasi tenant | Commissioning secret (one-time) → rotated to device key pair after enrollment |
-| Operator identity | This human has the correct credentials and second factor for the claimed tenant role | Password + TOTP or WebAuthn |
+| Layer             | What is proved                                                                       | Mechanism                                                                     |
+| ----------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| Device identity   | This browser installation is an enrolled terminal for the koperasi tenant            | Commissioning secret (one-time) → rotated to device key pair after enrollment |
+| Operator identity | This human has the correct credentials and second factor for the claimed tenant role | Password + TOTP or WebAuthn                                                   |
 
 The backend issues a short-lived **access token** and a longer-lived **refresh token** only after both layers pass. Both tokens are bound to `tenantId`, `accountId`, `deviceId`, and the permitted role scope.
 
@@ -15,14 +15,14 @@ The backend issues a short-lived **access token** and a longer-lived **refresh t
 
 ## MFA requirements
 
-| Role | MFA requirement |
-|------|----------------|
-| `tenant_admin` | Required (TOTP or WebAuthn); may not disable |
-| `station_operator` | Required |
-| `gate_operator` | Required |
-| `terminal_operator` | Required |
-| `reconciler` | Required |
-| `scout` (member self-service) | Optional; configurable per tenant |
+| Role                          | MFA requirement                              |
+| ----------------------------- | -------------------------------------------- |
+| `tenant_admin`                | Required (TOTP or WebAuthn); may not disable |
+| `station_operator`            | Required                                     |
+| `gate_operator`               | Required                                     |
+| `terminal_operator`           | Required                                     |
+| `reconciler`                  | Required                                     |
+| `scout` (member self-service) | Optional; configurable per tenant            |
 
 MFA is enforced server-side at token issuance. A token is never issued if MFA is required and not satisfied.
 
@@ -53,16 +53,16 @@ No API endpoint assumes tenant context from the request body. Tenant scope is re
 
 ### Permission matrix
 
-| Permission | tenant_admin | station_operator | gate_operator | terminal_operator | reconciler | scout |
-|------------|:---:|:---:|:---:|:---:|:---:|:---:|
-| Issue / re-key card | − | ✓ | − | − | − | − |
-| Top-up balance | − | ✓ | − | − | − | − |
-| Block card | ✓ | ✓ | ∓ | ∓ | − | − |
-| Request session grant | − | ✓ | ✓ | ✓ | − | − |
-| Submit reconciliation | − | ∓ | ∓ | ✓ | − | − |
-| Manage accounts / devices | ✓ | − | − | − | − | − |
-| View audit log | ✓ | − | − | − | ✓ | − |
-| Read card state | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Permission                | tenant_admin | station_operator | gate_operator | terminal_operator | reconciler | scout |
+| ------------------------- | :----------: | :--------------: | :-----------: | :---------------: | :--------: | :---: |
+| Issue / re-key card       |      −       |        ✓         |       −       |         −         |     −      |   −   |
+| Top-up balance            |      −       |        ✓         |       −       |         −         |     −      |   −   |
+| Block card                |      ✓       |        ✓         |       ∓       |         ∓         |     −      |   −   |
+| Request session grant     |      −       |        ✓         |       ✓       |         ✓         |     −      |   −   |
+| Submit reconciliation     |      −       |        ∓         |       ∓       |         ✓         |     −      |   −   |
+| Manage accounts / devices |      ✓       |        −         |       −       |         −         |     −      |   −   |
+| View audit log            |      ✓       |        −         |       −       |         −         |     ✓      |   −   |
+| Read card state           |      ✓       |        ✓         |       ✓       |         ✓         |     ✓      |   ✓   |
 
 (✓ = always, ∓ = conditional, − = denied)
 
@@ -102,14 +102,14 @@ No API endpoint assumes tenant context from the request body. Tenant scope is re
 
 A session grant must be bound to all of the following or be rejected at the backend:
 
-| Field | Binding |
-|-------|---------|
-| `tenantId` | Must match the active tenant in the issuing access token |
-| `accountId` | Must match the issuing operator |
-| `deviceId` | Must match the enrolled device presenting the access token |
-| `allowedOps` | Restricted to the role's permission set |
-| `expiresAt` | Set by backend policy (1–24 hours) |
-| `signature` | ECDSA or HMAC-SHA256 signed by the backend with the tenant key material |
+| Field        | Binding                                                                 |
+| ------------ | ----------------------------------------------------------------------- |
+| `tenantId`   | Must match the active tenant in the issuing access token                |
+| `accountId`  | Must match the issuing operator                                         |
+| `deviceId`   | Must match the enrolled device presenting the access token              |
+| `allowedOps` | Restricted to the role's permission set                                 |
+| `expiresAt`  | Set by backend policy (1–24 hours)                                      |
+| `signature`  | ECDSA or HMAC-SHA256 signed by the backend with the tenant key material |
 
 A terminal must validate the grant signature before using it. An invalid or expired grant must result in a full refresh cycle.
 

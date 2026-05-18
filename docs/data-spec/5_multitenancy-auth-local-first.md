@@ -13,11 +13,11 @@ This section defines the data contracts needed to support multiple koperasi tena
 
 The authentication model keeps sensitive secrets on the backend and only stores what is required for local operation and tenant binding.
 
-| Category | Stored where | Notes |
-|----------|--------------|-------|
-| Account credentials | Backend auth tables | Password hash and MFA references only; never replicated client-side |
-| Access tokens | Process memory only | Short-lived; discarded on reload or expiry |
-| Refresh metadata | Backend and optionally encrypted local cache | Store only hashes or encrypted blobs; do not keep raw refresh secrets in plaintext |
+| Category            | Stored where                                 | Notes                                                                              |
+| ------------------- | -------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Account credentials | Backend auth tables                          | Password hash and MFA references only; never replicated client-side                |
+| Access tokens       | Process memory only                          | Short-lived; discarded on reload or expiry                                         |
+| Refresh metadata    | Backend and optionally encrypted local cache | Store only hashes or encrypted blobs; do not keep raw refresh secrets in plaintext |
 
 ## IndexedDB stores
 

@@ -1,14 +1,17 @@
 # Iterator Pattern
 
 ## Purpose
+
 Provide a way to sequentially access elements of a collection without exposing its underlying representation.
 
 ## SDD Trigger
+
 - Paginated API responses from API Spec — iterate pages without the caller managing cursors.
 - Tech Specs §14 — transaction log: iterate log entries in hash-chain order without exposing the storage structure.
 - Any Data Spec collection that has complex traversal logic (filtered, ordered, paginated).
 
 ## Code Template (TypeScript — Async Iterator for paginated API)
+
 ```ts
 // Spec: API Spec §6 — Reconciliation log pagination
 // Pattern: Iterator (async generator)
@@ -30,12 +33,13 @@ export async function* transactionLogIterator(
 }
 
 // Usage — caller never manages pagination
-for await (const log of transactionLogIterator(repo, 'CARD-001')) {
+for await (const log of transactionLogIterator(repo, "CARD-001")) {
   console.log(log.amount, log.timestamp);
 }
 ```
 
 ## Code Template (TypeScript — Iterable collection class)
+
 ```ts
 // Pattern: Iterator (Symbol.iterator)
 
@@ -65,7 +69,9 @@ export class TransactionLogCollection implements Iterable<TransactionLog> {
 ```
 
 ## In Practice (TypeScript)
+
 Most iteration needs in TypeScript are already served by:
+
 - Array methods: `map`, `filter`, `reduce`, `flatMap`
 - `for...of` with `Symbol.iterator`
 - Async generators (`async function*`) for paginated or streamed data
@@ -73,5 +79,6 @@ Most iteration needs in TypeScript are already served by:
 Implement a custom Iterator class only when traversal logic is complex enough to warrant encapsulation.
 
 ## Antipatterns
+
 - Exposing raw array indices to callers who then implement their own traversal.
 - Iterator that modifies the underlying collection during iteration.

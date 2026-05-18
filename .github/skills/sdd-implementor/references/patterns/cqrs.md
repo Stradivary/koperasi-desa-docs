@@ -1,17 +1,20 @@
 # CQRS — Command Query Responsibility Segregation
 
 ## Purpose
+
 Separates write operations (Commands — mutate state) from read operations (Queries — return data). This prevents read complexity from polluting write logic and vice versa.
 
 ## Layer Mapping from SDD
-| Spec Layer | CQRS Role |
-|------------|-----------|
-| API Spec POST/PUT/DELETE | Commands |
-| API Spec GET | Queries |
-| Tech Specs §behaviors | Command/Query handler logic |
-| Data Spec | Write model (normalized) + Read model (denormalized/projection) |
+
+| Spec Layer               | CQRS Role                                                       |
+| ------------------------ | --------------------------------------------------------------- |
+| API Spec POST/PUT/DELETE | Commands                                                        |
+| API Spec GET             | Queries                                                         |
+| Tech Specs §behaviors    | Command/Query handler logic                                     |
+| Data Spec                | Write model (normalized) + Read model (denormalized/projection) |
 
 ## Folder Structure
+
 ```
 application/
   commands/
@@ -25,6 +28,7 @@ application/
 ```
 
 ## Command Template
+
 ```ts
 // Spec: API Spec §5 POST /cards/{uid}/payment
 // Pattern: CQRS — Command + Handler
@@ -53,6 +57,7 @@ export class ProcessPaymentHandler {
 ```
 
 ## Query Template
+
 ```ts
 // Spec: API Spec §5 GET /cards/{uid}/balance
 // Pattern: CQRS — Query + Handler
@@ -71,12 +76,14 @@ export class GetCardBalanceHandler {
 ```
 
 ## Rules
+
 - Command handlers must not return domain data — only success/failure.
 - Query handlers must not mutate state.
 - Read models can be denormalized projections optimized for display.
 - Use event publishing (optional) between write side and read side for eventual consistency.
 
 ## Antipatterns
+
 - Command handlers that also return full entity data (breaks separation).
 - Queries that trigger side effects.
 - Mixing command and query logic in one "service" class.

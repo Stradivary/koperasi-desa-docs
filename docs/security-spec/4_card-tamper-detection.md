@@ -4,31 +4,31 @@
 
 Each failure condition maps to a security event severity.
 
-| Failure | Condition | Severity |
-|---------|-----------|----------|
-| Magic / version mismatch | `magic` ≠ expected value or `version` unsupported | Medium — may be unformatted card |
-| HMAC mismatch | Recomputed HMAC does not match trailer | **Critical** — active tamper |
-| GCM decryption failure | AES-GCM tag check fails | **Critical** — active tamper |
-| Counter rollback | On-card counter ≤ last known counter | **Critical** — replay or rollback attack |
-| Timestamp rollback | `lastTimestamp` > `now + drift_allowance` | High — potential rollback |
-| Balance inconsistency | Balance ≠ expected from log chain | **Critical** — active tamper |
-| Log chain hash mismatch | Any chain hash fails recomputation | **Critical** — log tampering |
-| Root hash mismatch | Trailer `rootHash` ≠ computed chain head | **Critical** — active tamper |
-| Key version unknown | No grant available for the card's `keyVersion` | High — offline or re-key needed |
-| Status blocked | `status` field is any `BLOCKED_*` value | Informational — expected state |
+| Failure                  | Condition                                         | Severity                                 |
+| ------------------------ | ------------------------------------------------- | ---------------------------------------- |
+| Magic / version mismatch | `magic` ≠ expected value or `version` unsupported | Medium — may be unformatted card         |
+| HMAC mismatch            | Recomputed HMAC does not match trailer            | **Critical** — active tamper             |
+| GCM decryption failure   | AES-GCM tag check fails                           | **Critical** — active tamper             |
+| Counter rollback         | On-card counter ≤ last known counter              | **Critical** — replay or rollback attack |
+| Timestamp rollback       | `lastTimestamp` > `now + drift_allowance`         | High — potential rollback                |
+| Balance inconsistency    | Balance ≠ expected from log chain                 | **Critical** — active tamper             |
+| Log chain hash mismatch  | Any chain hash fails recomputation                | **Critical** — log tampering             |
+| Root hash mismatch       | Trailer `rootHash` ≠ computed chain head          | **Critical** — active tamper             |
+| Key version unknown      | No grant available for the card's `keyVersion`    | High — offline or re-key needed          |
+| Status blocked           | `status` field is any `BLOCKED_*` value           | Informational — expected state           |
 
 ---
 
 ## Response policy
 
-| Condition | Terminal action | Backend action |
-|-----------|----------------|---------------|
+| Condition                                     | Terminal action                                                                                        | Backend action                                         |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------ |
 | HMAC / GCM / chain / balance critical failure | Set `BLOCKED_TAMPER` on next authenticated write; if write not possible, report to backend immediately | Log tamper event; flag card; queue for operator review |
-| Counter rollback | Refuse all operations; report to backend | Log replay event; flag for investigation |
-| Timestamp rollback | Refuse write; log locally | Reconciliation flags event on upload |
-| Key version unknown (online) | Request fresh session grant | Issue grant for current `keyVersion` |
-| Key version unknown (offline) | Refuse write; display generic error | Receive report at next reconciliation |
-| Blocked status | Allow read; refuse all writes | No action unless reconciliation detects escalation |
+| Counter rollback                              | Refuse all operations; report to backend                                                               | Log replay event; flag for investigation               |
+| Timestamp rollback                            | Refuse write; log locally                                                                              | Reconciliation flags event on upload                   |
+| Key version unknown (online)                  | Request fresh session grant                                                                            | Issue grant for current `keyVersion`                   |
+| Key version unknown (offline)                 | Refuse write; display generic error                                                                    | Receive report at next reconciliation                  |
+| Blocked status                                | Allow read; refuse all writes                                                                          | No action unless reconciliation detects escalation     |
 
 **Do not expose the specific failure reason to the end user.** Display `Card blocked` or `Card error — contact staff`. Detailed failure data belongs in operator and backend logs only.
 
@@ -38,16 +38,16 @@ Each failure condition maps to a security event severity.
 
 Every tamper event submitted to the backend must include:
 
-| Field | Description |
-|-------|-------------|
-| `tenantId` | Owning koperasi |
-| `cardId` | Card identifier (hex) |
-| `terminalId` | Reporting terminal |
-| `accountId` | Operator on session at time of detection |
-| `eventType` | One of: `tamper`, `replay`, `rollback`, `chain_break`, `balance_mismatch` |
-| `detectedAt` | Terminal-local timestamp |
-| `counter` | On-card counter value at time of detection |
-| `failureStep` | Validation step number from Tech Specs §5 that failed |
+| Field         | Description                                                               |
+| ------------- | ------------------------------------------------------------------------- |
+| `tenantId`    | Owning koperasi                                                           |
+| `cardId`      | Card identifier (hex)                                                     |
+| `terminalId`  | Reporting terminal                                                        |
+| `accountId`   | Operator on session at time of detection                                  |
+| `eventType`   | One of: `tamper`, `replay`, `rollback`, `chain_break`, `balance_mismatch` |
+| `detectedAt`  | Terminal-local timestamp                                                  |
+| `counter`     | On-card counter value at time of detection                                |
+| `failureStep` | Validation step number from Tech Specs §5 that failed                     |
 
 Tamper events must be queued in the local outbox if the terminal is offline and submitted as part of the next reconciliation batch.
 

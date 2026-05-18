@@ -5,6 +5,7 @@
 The card stores a fixed-capacity ring buffer of transaction log entries. Storage is constrained by card capacity; the buffer holds approximately 7 entries on NTAG215.
 
 Each entry records:
+
 - The time elapsed since session start (as a delta, not an absolute timestamp)
 - The transaction amount
 - The balance after the transaction

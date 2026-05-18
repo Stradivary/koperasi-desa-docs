@@ -5,6 +5,7 @@ Terminals send reports for tamper events, suspicious card states, or terminal er
 ## `POST /api/terminal-report`
 
 **Request**:
+
 ```json
 {
   "terminalId": 42,
@@ -17,6 +18,7 @@ Terminals send reports for tamper events, suspicious card states, or terminal er
 ```
 
 Common event types:
+
 - `tamper`
 - `replay`
 - `invalid_transition`
@@ -25,6 +27,7 @@ Common event types:
 - `terminal_error`
 
 Errors:
+
 - `400 malformed_payload`
 - `401 invalid_token`
 

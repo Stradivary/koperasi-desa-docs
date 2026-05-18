@@ -1,18 +1,21 @@
 # Flux / Redux Pattern
 
 ## Purpose
+
 Unidirectional data flow: UI dispatches Actions → Reducers produce new State → UI re-renders from State. Prevents spaghetti state mutations across components.
 
 ## Layer Mapping from SDD
-| Spec Layer | Redux Layer |
-|------------|------------|
-| Data Spec entities | State shape / slice |
-| Tech Spec behaviors | Thunks / Sagas / Effects |
-| API Spec endpoints | RTK Query endpoints / async thunks |
-| System Design state machine | Reducer transitions |
-| Product Spec user flows | Component → dispatch calls |
+
+| Spec Layer                  | Redux Layer                        |
+| --------------------------- | ---------------------------------- |
+| Data Spec entities          | State shape / slice                |
+| Tech Spec behaviors         | Thunks / Sagas / Effects           |
+| API Spec endpoints          | RTK Query endpoints / async thunks |
+| System Design state machine | Reducer transitions                |
+| Product Spec user flows     | Component → dispatch calls         |
 
 ## Folder Structure (RTK — Redux Toolkit)
+
 ```
 src/features/<feature>/
   store/
@@ -24,38 +27,41 @@ src/features/<feature>/
 ```
 
 ## Slice Template (TypeScript + RTK)
+
 ```ts
 // Spec: System Design §4 — Card state machine
 // Pattern: Flux/Redux — Slice
 
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface CardState {
-  status: 'idle' | 'loading' | 'loaded' | 'error';
+  status: "idle" | "loading" | "loaded" | "error";
   card: Card | null;
   error: string | null;
 }
 
-const initialState: CardState = { status: 'idle', card: null, error: null };
+const initialState: CardState = { status: "idle", card: null, error: null };
 
 export const cardSlice = createSlice({
-  name: 'card',
+  name: "card",
   initialState,
   reducers: {
     cardLoaded: (state, action: PayloadAction<Card>) => {
-      state.status = 'loaded';
+      state.status = "loaded";
       state.card = action.payload;
     },
     cardBlocked: (state, action: PayloadAction<string>) => {
       // Spec: System Design §15 — blocked status rules
-      if (state.card) state.card.status = 'blocked';
+      if (state.card) state.card.status = "blocked";
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(loadCardThunk.pending, (state) => { state.status = 'loading'; })
+      .addCase(loadCardThunk.pending, (state) => {
+        state.status = "loading";
+      })
       .addCase(loadCardThunk.fulfilled, (state, action) => {
-        state.status = 'loaded';
+        state.status = "loaded";
         state.card = action.payload;
       });
   },
@@ -63,6 +69,7 @@ export const cardSlice = createSlice({
 ```
 
 ## Rules
+
 - Reducers must be pure functions (no side effects, no API calls).
 - Async logic goes in Thunks/Sagas/Effects — not in reducers or components.
 - Selectors should be memoized (`createSelector`) for derived state.

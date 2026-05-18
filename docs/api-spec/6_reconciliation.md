@@ -7,6 +7,7 @@ Terminals upload offline events when connectivity returns. The backend validates
 ## `POST /api/reconcile`
 
 **Request**:
+
 ```json
 {
   "terminalId": 42,
@@ -25,6 +26,7 @@ Terminals upload offline events when connectivity returns. The backend validates
 ```
 
 **Response**:
+
 ```json
 {
   "accepted": 3,
@@ -40,6 +42,7 @@ Terminals upload offline events when connectivity returns. The backend validates
 ```
 
 Common errors:
+
 - `400 malformed_payload`
 - `401 invalid_token`
 - `409 duplicate_counter`

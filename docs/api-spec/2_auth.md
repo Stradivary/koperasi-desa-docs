@@ -7,6 +7,7 @@ Authentication combines device identity and operator credentials.
 Exchange device and operator credentials for an authenticated tenant session.
 
 **Request body**:
+
 ```json
 {
   "tenantSlug": "koperasi-kegelapan",
@@ -20,6 +21,7 @@ Exchange device and operator credentials for an authenticated tenant session.
 ```
 
 **Response**:
+
 ```json
 {
   "accessToken": "<token>",
@@ -38,15 +40,15 @@ Exchange device and operator credentials for an authenticated tenant session.
 
 **Common errors**:
 
-| Code | Error | Cause |
-|------|-------|-------|
-| `401` | `invalid_credentials` | Operator credentials are invalid |
-| `401` | `invalid_device_credentials` | Device identity is invalid |
-| `403` | `tenant_suspended` | Tenant is disabled |
-| `403` | `device_suspended` | Device is disabled |
-| `403` | `account_suspended` | Account is disabled |
-| `422` | `invalid_role` | Unsupported role |
-| `422` | `invalid_tenant` | Tenant not found or not accessible |
+| Code  | Error                        | Cause                              |
+| ----- | ---------------------------- | ---------------------------------- |
+| `401` | `invalid_credentials`        | Operator credentials are invalid   |
+| `401` | `invalid_device_credentials` | Device identity is invalid         |
+| `403` | `tenant_suspended`           | Tenant is disabled                 |
+| `403` | `device_suspended`           | Device is disabled                 |
+| `403` | `account_suspended`          | Account is disabled                |
+| `422` | `invalid_role`               | Unsupported role                   |
+| `422` | `invalid_tenant`             | Tenant not found or not accessible |
 
 ## Token lifecycle
 

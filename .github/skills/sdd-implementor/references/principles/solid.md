@@ -1,6 +1,7 @@
 # SOLID Principles
 
 ## S — Single Responsibility Principle
+
 > A class should have one, and only one, reason to change.
 
 **Violation signals:** A class imports both HTTP clients AND database adapters AND sends emails.
@@ -12,6 +13,7 @@
 ---
 
 ## O — Open/Closed Principle
+
 > Open for extension, closed for modification.
 
 **Violation signals:** Adding a new payment method requires modifying `PaymentService` switch/if-else.
@@ -23,6 +25,7 @@
 ---
 
 ## L — Liskov Substitution Principle
+
 > Subtypes must be substitutable for their base types without altering correctness.
 
 **Violation signals:** `AdminCard extends Card` but throws `NotSupportedError` on `debit()`.
@@ -34,6 +37,7 @@
 ---
 
 ## I — Interface Segregation Principle
+
 > Clients should not be forced to depend on interfaces they do not use.
 
 **Violation signals:** `ICardRepository` has `findByUid`, `sendEmail`, `generateReport`, `auditLog`.
@@ -45,6 +49,7 @@
 ---
 
 ## D — Dependency Inversion Principle
+
 > High-level modules should not depend on low-level modules. Both should depend on abstractions.
 
 **Violation signals:** Use case imports `PrismaClient` directly.
@@ -56,7 +61,9 @@
 ---
 
 ## SOLID Quick Audit Checklist
+
 After generating code, check each file:
+
 - [ ] Does this file import from a lower/outer layer directly? (violates D)
 - [ ] Does this file have more than one "reason to change"? (violates S)
 - [ ] Are there switch/if-else blocks dispatching on type? (violates O → use Strategy or Factory)

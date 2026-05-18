@@ -14,6 +14,7 @@ Additionally, the card log must fit within the tight byte budget of NTAG215 (~49
 The transaction log uses a **hash chain**: each log entry contains a truncated SHA-256 hash that covers the content of the current entry plus the hash field of the previous entry. The first entry (the anchor) is chained from a `rootHash` stored in the trailer, which is itself covered by the trailer HMAC.
 
 **Chain structure:**
+
 ```
 rootHash (trailer, HMAC-protected)
   └─ entry[0]: hash = SHA256(entry[0].data || rootHash)[0:6]
@@ -28,28 +29,31 @@ rootHash (trailer, HMAC-protected)
 ## Consequences
 
 **Positive:**
+
 - Modification of any log entry (amount, balance, type) invalidates all subsequent hashes in the chain. The reader detects tampering on any entry after the modified one.
 - Deletion of a log entry breaks the chain at the deletion point and forward.
 - Reordering entries breaks the chain because each entry's hash depends on the previous.
 - Insertion of a forged entry is only possible if the attacker can also recompute all subsequent hashes — which requires knowing the session key to maintain a valid `rootHash` HMAC.
 
 **Negative:**
+
 - A truncated 6-byte hash has a birthday collision probability of approximately 2^{-24} for random guessing. An attacker without the session key cannot forge the `rootHash` binding anyway; the 6-byte truncation is a storage trade-off, not a security weakness in this context.
 - The ring buffer model means old entries are overwritten when the log is full (7 entries on NTAG215). Long sessions with many transactions will lose the earliest entries before reconciliation unless the terminal uploads incrementally.
 - The chain must be re-anchored on every ring-buffer wrap, which requires a trailer write (and thus an HMAC recompute) on every 7th transaction.
 
 **Risks:**
+
 - If a terminal fails to reconcile before the log wraps multiple times, unreconciled entries are permanently lost. Backend policy should enforce reconciliation frequency relative to the expected transaction rate per card.
 
 ## Alternatives Considered
 
-| Option | Reason Rejected |
-|--------|-----------------|
-| **Flat log (no chain)** | Each entry is independent. An attacker can replace any entry without affecting any other. Does not provide tamper evidence for individual entries. |
-| **Full SHA-256 per entry (32 bytes)** | 32-byte hash fields would limit the log to 3 entries on NTAG215 (vs 7 with 6-byte truncation). Disproportionate storage cost for marginal security gain given the session-key binding. |
-| **HMAC per entry** | Would require storing a separate HMAC key reference per entry, or using the same key for all entries. A single HMAC per entry is approximately the same size as the chain hash and does not provide chain-linkage (reordering and deletion would still be undetectable). |
-| **Merkle tree** | More tamper-resistant for random-access log proof, but requires significantly more storage for intermediate nodes. Overkill for a sequential append-only log. |
-| **No on-card log (backend only)** | Requires online connectivity per transaction to record the log. Incompatible with the offline-first requirement. |
+| Option                                | Reason Rejected                                                                                                                                                                                                                                                          |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Flat log (no chain)**               | Each entry is independent. An attacker can replace any entry without affecting any other. Does not provide tamper evidence for individual entries.                                                                                                                       |
+| **Full SHA-256 per entry (32 bytes)** | 32-byte hash fields would limit the log to 3 entries on NTAG215 (vs 7 with 6-byte truncation). Disproportionate storage cost for marginal security gain given the session-key binding.                                                                                   |
+| **HMAC per entry**                    | Would require storing a separate HMAC key reference per entry, or using the same key for all entries. A single HMAC per entry is approximately the same size as the chain hash and does not provide chain-linkage (reordering and deletion would still be undetectable). |
+| **Merkle tree**                       | More tamper-resistant for random-access log proof, but requires significantly more storage for intermediate nodes. Overkill for a sequential append-only log.                                                                                                            |
+| **No on-card log (backend only)**     | Requires online connectivity per transaction to record the log. Incompatible with the offline-first requirement.                                                                                                                                                         |
 
 ## References
 

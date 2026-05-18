@@ -19,13 +19,13 @@ Backend Master Key (HSM)
 
 A session grant is a signed object that allows a terminal to operate for a limited period.
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `keyVersion` | uint8 | Identifies the key set for deriving card keys |
-| `sessionKey` | 32 bytes | The terminal session key for this grant |
-| `expiresAt` | uint32 | UTC seconds; grant is invalid after this time |
+| Field        | Type     | Description                                                    |
+| ------------ | -------- | -------------------------------------------------------------- |
+| `keyVersion` | uint8    | Identifies the key set for deriving card keys                  |
+| `sessionKey` | 32 bytes | The terminal session key for this grant                        |
+| `expiresAt`  | uint32   | UTC seconds; grant is invalid after this time                  |
 | `allowedOps` | string[] | Operations the terminal may perform (e.g., `debit`, `checkin`) |
-| `signature` | bytes | Backend ECDSA or HMAC signature over the above fields |
+| `signature`  | bytes    | Backend ECDSA or HMAC signature over the above fields          |
 
 - Terminals store session grants in memory only; they must not persist to disk or browser storage.
 - The card never receives or stores the session key directly.

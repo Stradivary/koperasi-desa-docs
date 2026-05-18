@@ -56,11 +56,7 @@ export class CardService {
     private readonly policy: ILimitPolicy,
   ) {}
 
-  async processPayment(
-    cardUid: string,
-    amount: number,
-    terminalId: string,
-  ): Promise<void> {
+  async processPayment(cardUid: string, amount: number, terminalId: string): Promise<void> {
     const card = await this.cardRepo.findByUid(cardUid);
     if (!card) throw new CardNotFoundError(cardUid);
 

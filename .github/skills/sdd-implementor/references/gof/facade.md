@@ -1,14 +1,17 @@
 # Facade Pattern
 
 ## Purpose
+
 Provide a simplified interface to a complex subsystem. Reduces coupling between clients and the internals of the subsystem.
 
 ## SDD Trigger
+
 - A feature that touches multiple subsystems (crypto + NFC + log) — wrap in one `CardOperationFacade`.
 - Frontend: a single `useCardActions` hook that internally coordinates React Query mutations and Zustand store updates.
 - Any Tech Spec behavior that says "the client calls one operation, but multiple internal steps happen."
 
 ## Code Template (TypeScript — Backend service facade)
+
 ```ts
 // Spec: Tech Specs §6 — Payment session flow
 // Pattern: Facade
@@ -44,6 +47,7 @@ export class PaymentFacade {
 ```
 
 ## Code Template (TypeScript — Frontend hook facade)
+
 ```ts
 // Pattern: Facade — frontend hook
 
@@ -53,7 +57,7 @@ export function useCardActions(uid: string) {
 
   const blockCard = async (reason: string) => {
     await blockMutation.mutateAsync({ uid, reason });
-    setNotification({ type: 'success', message: 'Card blocked successfully' });
+    setNotification({ type: "success", message: "Card blocked successfully" });
   };
 
   return { blockCard, isBlocking: blockMutation.isPending };
@@ -61,10 +65,12 @@ export function useCardActions(uid: string) {
 ```
 
 ## Rules
+
 - Facade must not contain business logic — it orchestrates, it doesn't decide.
 - Facade can be the single entry point referenced by controllers/components.
 - Keep subsystems independently testable — don't merge them into the Facade class.
 
 ## Antipatterns
+
 - Facade that grows into a "God class" containing business rules.
 - Using Facade to hide design problems instead of fixing them.

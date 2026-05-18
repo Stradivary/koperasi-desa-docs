@@ -2,13 +2,13 @@
 
 ## Financial bounds
 
-| Limit | Value | Notes |
-|-------|-------|-------|
-| Maximum storable balance | **Rp 16,000,000** | `uint32` ceiling |
-| Recommended balance cap | **Rp 5,000,000** | Enforced by backend policy; reduces exposure from card loss |
-| Single transaction maximum | **Rp 1,000,000** | Enforced per write; applies to both online and offline transactions |
-| Daily cumulative limit | **Rp 2,000,000** | Enforced by backend on reconciliation; terminal tracks locally |
-| Weekly cumulative limit | **Rp 5,000,000** | Backend policy; triggers elevated review on breach |
+| Limit                      | Value             | Notes                                                               |
+| -------------------------- | ----------------- | ------------------------------------------------------------------- |
+| Maximum storable balance   | **Rp 16,000,000** | `uint32` ceiling                                                    |
+| Recommended balance cap    | **Rp 5,000,000**  | Enforced by backend policy; reduces exposure from card loss         |
+| Single transaction maximum | **Rp 1,000,000**  | Enforced per write; applies to both online and offline transactions |
+| Daily cumulative limit     | **Rp 2,000,000**  | Enforced by backend on reconciliation; terminal tracks locally      |
+| Weekly cumulative limit    | **Rp 5,000,000**  | Backend policy; triggers elevated review on breach                  |
 
 ## Enforcement mechanism
 

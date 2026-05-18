@@ -4,27 +4,28 @@
 
 This system uses two orthogonal fields on the card that can look similar but mean very different things:
 
-| Field | Where stored | What it tracks | Values |
-|-------|-------------|---------------|--------|
-| `state` | Wallet + Runtime Block | **Session lifecycle** — where is the card in a workflow right now? | IDLE, CHECKED_IN, TERMINAL_OPERATION, CHECKED_OUT |
-| `status` | Identity Block | **Card health / trustworthiness** — can the card be trusted at all? | ACTIVE, BLOCKED_TAMPER, BLOCKED_FRAUD, BLOCKED_EXPIRED, BLOCKED_ADMIN |
+| Field    | Where stored           | What it tracks                                                      | Values                                                                |
+| -------- | ---------------------- | ------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `state`  | Wallet + Runtime Block | **Session lifecycle** — where is the card in a workflow right now?  | IDLE, CHECKED_IN, TERMINAL_OPERATION, CHECKED_OUT                     |
+| `status` | Identity Block         | **Card health / trustworthiness** — can the card be trusted at all? | ACTIVE, BLOCKED_TAMPER, BLOCKED_FRAUD, BLOCKED_EXPIRED, BLOCKED_ADMIN |
 
 A card can be `ACTIVE` (healthy) and `CHECKED_IN` (in a session) — that is normal. A card can also be `BLOCKED_TAMPER` (untrusted) and `IDLE` (no session). **Status and state are independent.** A blocked card can be in any state; the block overrides all session logic.
 
 Enforcement order on every read:
+
 1. Validate cryptographic integrity (HMAC, AES-GCM, log chain)
 2. **Check `status` — if blocked, deny writes and stop**
 3. Check `state` — enforce session rules for the current operation
 
 ## Status values
 
-| Code | Name | Description |
-|------|------|-------------|
-| `0` | `ACTIVE` | Card is in normal operation |
-| `1` | `BLOCKED_TAMPER` | Cryptographic or chain integrity check failed |
-| `2` | `BLOCKED_FRAUD` | Suspicious behaviour detected by terminal or backend |
-| `3` | `BLOCKED_EXPIRED` | Card or session has passed its expiry date |
-| `4` | `BLOCKED_ADMIN` | Manually decommissioned by a station operator |
+| Code | Name              | Description                                          |
+| ---- | ----------------- | ---------------------------------------------------- |
+| `0`  | `ACTIVE`          | Card is in normal operation                          |
+| `1`  | `BLOCKED_TAMPER`  | Cryptographic or chain integrity check failed        |
+| `2`  | `BLOCKED_FRAUD`   | Suspicious behaviour detected by terminal or backend |
+| `3`  | `BLOCKED_EXPIRED` | Card or session has passed its expiry date           |
+| `4`  | `BLOCKED_ADMIN`   | Manually decommissioned by a station operator        |
 
 > See [Tech Specs §15 Status Codes & Block Rules](../tech-specs/15_status-codes-block-rules.md) for blocking logic and re-issuance procedures.
 
@@ -40,12 +41,14 @@ The following describes the end-to-end journey for a member whose card is blocke
 **Trigger**: a terminal detects an HMAC mismatch while reading the card during a debit attempt.
 
 **What happens automatically:**
+
 1. The terminal does not write to the card.
 2. The terminal escalates the card to `BLOCKED_TAMPER` on the next authenticated write (if the card is still writable). If not writable, it sends a `/api/terminal-report` event to the backend with `eventType: "tamper"`.
 3. The backend sets the card's backend record to `BLOCKED_TAMPER` and logs the event.
 4. The terminal displays "Card blocked — please visit a service point."
 
 **Member journey to release:**
+
 1. Member brings the card to a **Station** terminal.
 2. Station operator queries the backend for the card's block reason and history.
 3. Operator verifies the member's identity and confirms no fraud signal.

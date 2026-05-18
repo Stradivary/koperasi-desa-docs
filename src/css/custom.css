@@ -17,7 +17,7 @@
 }
 
 /* Dark mode — Telkomsel Red */
-[data-theme='dark'] {
+[data-theme="dark"] {
   --ifm-color-primary: #f44d63;
   --ifm-color-primary-dark: #f01e37;
   --ifm-color-primary-darker: #e40521;
@@ -52,11 +52,11 @@
   vertical-align: middle;
 }
 
-[data-theme='dark'] .navbar-item-planned {
+[data-theme="dark"] .navbar-item-planned {
   color: var(--ifm-color-emphasis-500);
 }
 
-[data-theme='dark'] .navbar-item-planned__badge {
+[data-theme="dark"] .navbar-item-planned__badge {
   background-color: var(--ifm-color-emphasis-300);
   color: var(--ifm-color-emphasis-700);
 }

@@ -5,6 +5,7 @@
 A factory-fresh NXP NTAG215/216 card has no wallet payload written. Its data pages contain all `0x00` bytes (or `0xFF` after a full erase). This is distinct from a tampered card, which once held a valid payload that was subsequently modified.
 
 An uninitialised card:
+
 - Has no `magic` sentinel value at the expected offset
 - Has no `version` field
 - Cannot pass any cryptographic check — but should not be treated as a tamper event
@@ -25,16 +26,17 @@ If the magic field contains any other value that does not match the expected sen
 
 ## Allowed operations on an uninitialised card
 
-| App | Allowed? | Behaviour |
-|-----|----------|-----------|
-| Scout | ✅ Read | Display "Unactivated card" message. No write. |
-| Gate | ❌ | Reject with "Card not registered" before check-in. |
-| Terminal | ❌ | Reject any write attempt. |
-| Station | ✅ Write | Initialise card — write magic, version, identity block, and zero-state wallet payload. |
+| App      | Allowed? | Behaviour                                                                              |
+| -------- | -------- | -------------------------------------------------------------------------------------- |
+| Scout    | ✅ Read  | Display "Unactivated card" message. No write.                                          |
+| Gate     | ❌       | Reject with "Card not registered" before check-in.                                     |
+| Terminal | ❌       | Reject any write attempt.                                                              |
+| Station  | ✅ Write | Initialise card — write magic, version, identity block, and zero-state wallet payload. |
 
 ## Initialisation write (Station only)
 
 A Station performs the first write to an uninitialised card. This write:
+
 1. Sets the `magic` sentinel and `version`.
 2. Populates the identity block (`userId`, `name`, `status = ACTIVE`, `createdAt`).
 3. Sets `balance = 0`, `counter = 0`, `state = IDLE`.

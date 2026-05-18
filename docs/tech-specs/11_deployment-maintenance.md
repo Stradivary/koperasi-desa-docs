@@ -2,14 +2,14 @@
 
 ## Card lifecycle
 
-| Stage | Action | Actor |
-|-------|--------|-------|
-| Issuance | Write initial payload with `IDLE` state, zero balance, and current `keyVersion` | Station |
-| Activation | First check-in transitions card to `CHECKED_IN` | Gate |
-| Top-up | Station writes new balance; backend validates and logs | Station |
-| Re-keying | Station rewrites card with updated `keyVersion` when key rotation requires it | Station |
-| Block | Set status code in identity block on next authenticated write | Terminal / Backend |
-| Decommission | Mark `BLOCKED_ADMIN`; shred or recycle physical card | Operator |
+| Stage        | Action                                                                          | Actor              |
+| ------------ | ------------------------------------------------------------------------------- | ------------------ |
+| Issuance     | Write initial payload with `IDLE` state, zero balance, and current `keyVersion` | Station            |
+| Activation   | First check-in transitions card to `CHECKED_IN`                                 | Gate               |
+| Top-up       | Station writes new balance; backend validates and logs                          | Station            |
+| Re-keying    | Station rewrites card with updated `keyVersion` when key rotation requires it   | Station            |
+| Block        | Set status code in identity block on next authenticated write                   | Terminal / Backend |
+| Decommission | Mark `BLOCKED_ADMIN`; shred or recycle physical card                            | Operator           |
 
 ## Operations
 

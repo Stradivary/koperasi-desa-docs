@@ -41,11 +41,11 @@ Implement a simple tenant-scoped local model:
 
 ## Alternatives Considered
 
-| Option | Reason Rejected |
-|--------|-----------------|
-| **Single shared local cache with tenant metadata on each entry** | More error-prone and harder to enforce at the UI/terminal boundary. |
-| **Remote tenant scoping only** | Breaks offline-first operation because the tenant context would be unavailable if remote lookup fails. |
-| **No explicit tenant selector** | Increases risk of accidental tenant mis-selection and data mixing. |
+| Option                                                           | Reason Rejected                                                                                        |
+| ---------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| **Single shared local cache with tenant metadata on each entry** | More error-prone and harder to enforce at the UI/terminal boundary.                                    |
+| **Remote tenant scoping only**                                   | Breaks offline-first operation because the tenant context would be unavailable if remote lookup fails. |
+| **No explicit tenant selector**                                  | Increases risk of accidental tenant mis-selection and data mixing.                                     |
 
 ## References
 

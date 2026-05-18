@@ -2,24 +2,24 @@
 
 ## Log entry definition (16 bytes)
 
-| Field | Size | Type | Description |
-|-------|------|------|-------------|
-| `deltaTime` | 2 B | uint16 | Seconds elapsed since `session.startTime`; wraps at 65535 s (~18 h) |
-| `amount` | 3 B | uint24 | Transaction amount in smallest currency unit; unsigned |
-| `balanceAfter` | 4 B | uint32 | Balance after this transaction; used for consistency checks |
-| `flags/type` | 1 B | uint8 | Transaction type and operational flags (see below) |
-| `hash` | 6 B | bytes | Truncated SHA-256 chain hash linking this entry to the previous one |
+| Field          | Size | Type   | Description                                                         |
+| -------------- | ---- | ------ | ------------------------------------------------------------------- |
+| `deltaTime`    | 2 B  | uint16 | Seconds elapsed since `session.startTime`; wraps at 65535 s (~18 h) |
+| `amount`       | 3 B  | uint24 | Transaction amount in smallest currency unit; unsigned              |
+| `balanceAfter` | 4 B  | uint32 | Balance after this transaction; used for consistency checks         |
+| `flags/type`   | 1 B  | uint8  | Transaction type and operational flags (see below)                  |
+| `hash`         | 6 B  | bytes  | Truncated SHA-256 chain hash linking this entry to the previous one |
 
 **Total per entry: 16 bytes. Capacity on NTAG215: 7 entries (112 bytes).**
 
 ## `flags/type` field (1 byte)
 
-| Bits | Name | Values / Meaning |
-|------|------|------------------|
-| 3:0 | `txType` | `0x0` = debit, `0x1` = credit/top-up, `0x2` = check-in, `0x3` = check-out, `0xF` = system/admin |
-| 4 | `offlineFlag` | `1` = transaction was processed offline without backend confirmation |
-| 5 | `suspectFlag` | `1` = terminal flagged this transaction as potentially suspicious |
-| 7:6 | reserved | Must be zero on write; ignored on read |
+| Bits | Name          | Values / Meaning                                                                                |
+| ---- | ------------- | ----------------------------------------------------------------------------------------------- |
+| 3:0  | `txType`      | `0x0` = debit, `0x1` = credit/top-up, `0x2` = check-in, `0x3` = check-out, `0xF` = system/admin |
+| 4    | `offlineFlag` | `1` = transaction was processed offline without backend confirmation                            |
+| 5    | `suspectFlag` | `1` = terminal flagged this transaction as potentially suspicious                               |
+| 7:6  | reserved      | Must be zero on write; ignored on read                                                          |
 
 ## Ring buffer
 

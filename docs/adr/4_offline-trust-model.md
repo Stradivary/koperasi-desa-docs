@@ -37,28 +37,31 @@ Key properties of the model:
 ## Consequences
 
 **Positive:**
+
 - Terminals operate fully offline during a valid grant window without any backend dependency per tap.
 - Financial exposure from offline fraud is bounded by the session grant TTL and the balance ceiling.
 - The model degrades gracefully: if the backend is unavailable, existing grant-holders can continue operating until their grant expires.
 - Reconciliation provides an audit trail for every transaction, even those accepted offline.
 
 **Negative:**
+
 - A terminal whose grant has expired cannot accept new transactions until it reconnects. Venues must ensure terminals reconnect at least once per grant TTL to maintain continuous operation.
 - A card that is blocked at the backend will continue to be accepted by offline terminals until their grant is refreshed. The risk window is bounded by the grant TTL.
 - Reconciliation is eventual, not immediate. The backend cannot prevent a fraudulent offline transaction; it can only detect and flag it after the fact.
 
 **Risks:**
+
 - Grant TTL misconfiguration (e.g., 24-hour grants with daily reconnect policy) creates a 24-hour worst-case window for undetected fraud. Operators should choose TTLs appropriate for the venue's connectivity profile.
 - Terminals that never reconnect (e.g., decommissioned without draining the event queue) may leave unreconciled transactions. The backend must enforce a reconciliation deadline policy.
 
 ## Alternatives Considered
 
-| Option | Reason Rejected |
-|--------|-----------------|
-| **Online-only (no offline capability)** | Unacceptable for the target use case: events and venues frequently have intermittent or no internet. A payment failure during an event gate rush is operationally unacceptable. |
-| **Full offline trust (no session expiry)** | A stolen or compromised terminal would have unlimited authority forever. No financial loss bound. Incompatible with the security requirements. |
-| **Pre-loaded policy without key grants** | A terminal with a static key and a locally stored policy has no way to receive revocations or blacklist updates. A compromised key cannot be revoked offline. |
-| **Per-transaction backend confirmation** | Requires reliable connectivity per tap. Falls back to the online-only problem. Not feasible for NFC tap speeds (< 500ms expected UX). |
+| Option                                     | Reason Rejected                                                                                                                                                                 |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Online-only (no offline capability)**    | Unacceptable for the target use case: events and venues frequently have intermittent or no internet. A payment failure during an event gate rush is operationally unacceptable. |
+| **Full offline trust (no session expiry)** | A stolen or compromised terminal would have unlimited authority forever. No financial loss bound. Incompatible with the security requirements.                                  |
+| **Pre-loaded policy without key grants**   | A terminal with a static key and a locally stored policy has no way to receive revocations or blacklist updates. A compromised key cannot be revoked offline.                   |
+| **Per-transaction backend confirmation**   | Requires reliable connectivity per tap. Falls back to the online-only problem. Not feasible for NFC tap speeds (< 500ms expected UX).                                           |
 
 ## References
 

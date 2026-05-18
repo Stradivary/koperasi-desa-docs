@@ -1,14 +1,17 @@
 # State Pattern
 
 ## Purpose
+
 Allow an object to alter its behavior when its internal state changes. The object appears to change its class. Eliminates large switch/if-else chains on status fields.
 
 ## SDD Trigger
+
 System Design §4 card-state-machine → implement directly as State pattern.
 
 Any spec that defines a state machine diagram or state transition table should become a State pattern implementation.
 
 ## Structure
+
 ```
 Context (Card)
   - state: ICardState
@@ -22,6 +25,7 @@ ICardState
 ```
 
 ## Code Template (TypeScript)
+
 ```ts
 // Spec: System Design §4 — Card state machine
 // Pattern: State
@@ -35,7 +39,7 @@ export interface ICardState {
 
 export class ActiveState implements ICardState {
   onActivate(card: Card): void {
-    throw new InvalidTransitionError('Card is already active');
+    throw new InvalidTransitionError("Card is already active");
   }
   onDebit(card: Card, amount: number): void {
     // Spec: Tech Specs §15 — balance deduction rules
@@ -52,13 +56,17 @@ export class ActiveState implements ICardState {
 export class BlockedState implements ICardState {
   constructor(private reason: string) {}
   onActivate(_card: Card): void {
-    throw new InvalidTransitionError('Blocked card cannot be activated directly');
+    throw new InvalidTransitionError("Blocked card cannot be activated directly");
   }
   onDebit(_card: Card, _amount: number): void {
     throw new CardBlockedError(this.reason);
   }
-  onBlock(_card: Card, _reason: string): void { /* already blocked */ }
-  onSuspend(_card: Card): void { /* no-op or throw */ }
+  onBlock(_card: Card, _reason: string): void {
+    /* already blocked */
+  }
+  onSuspend(_card: Card): void {
+    /* no-op or throw */
+  }
 }
 
 export class Card {
@@ -78,14 +86,16 @@ export class Card {
 ```
 
 ## Spec Traceability
+
 Map every state transition in the spec to a method transition in the State class:
 
-| Spec Transition | State Method | Source |
-|-----------------|-------------|--------|
-| initial → active | `InitialState.onActivate` | System Design §4 |
-| active → blocked | `ActiveState.onBlock` | System Design §15 |
-| active → suspended | `ActiveState.onSuspend` | System Design §11 |
+| Spec Transition    | State Method              | Source            |
+| ------------------ | ------------------------- | ----------------- |
+| initial → active   | `InitialState.onActivate` | System Design §4  |
+| active → blocked   | `ActiveState.onBlock`     | System Design §15 |
+| active → suspended | `ActiveState.onSuspend`   | System Design §11 |
 
 ## Antipatterns
+
 - Status enum + switch statement scattered across the codebase (brittle, violates OCP).
 - State transitions outside the state objects (breaks encapsulation).

@@ -9,6 +9,7 @@ A session grant authorises a terminal to perform card operations for a limited t
 Request a session grant for the authenticated terminal.
 
 **Response**:
+
 ```json
 {
   "keyVersion": 3,
@@ -26,6 +27,7 @@ Request a session grant for the authenticated terminal.
 - `signature`: backend signature; must be verified before use.
 
 Common operation values:
+
 - `read`
 - `debit`
 - `checkin`
@@ -35,6 +37,7 @@ Common operation values:
 - `block`
 
 Common errors:
+
 - `401 invalid_token`
 - `403 terminal_suspended`
 - `429 rate_limited`

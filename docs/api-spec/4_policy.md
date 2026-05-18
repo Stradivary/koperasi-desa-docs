@@ -7,6 +7,7 @@ The policy endpoint returns current risk limits and blocked status codes for the
 ## `GET /api/policy`
 
 **Response**:
+
 ```json
 {
   "maxBalance": 5000000,
@@ -19,6 +20,7 @@ The policy endpoint returns current risk limits and blocked status codes for the
 ```
 
 Common fields:
+
 - `maxBalance`
 - `singleTxLimit`
 - `dailyLimit`
@@ -27,6 +29,7 @@ Common fields:
 - `clockDriftAllowanceSec`
 
 Common error:
+
 - `401 invalid_token`
 
 ## Caching

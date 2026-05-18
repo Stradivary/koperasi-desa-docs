@@ -9,13 +9,13 @@
 
 ## Timestamp fields and their meaning
 
-| Field | Location | Meaning |
-|-------|----------|---------|
-| `createdAt` | Identity block | Card issuance timestamp |
-| `lastTimestamp` | Wallet+Runtime block | Time of the most recent write |
-| `session.startTime` | Session block | Time the current session was opened |
-| `session.endTime` | Session block | Time the session was closed (0 = open) |
-| `expiresAt` | Trailer | Card expiry; no writes after this time |
+| Field               | Location             | Meaning                                |
+| ------------------- | -------------------- | -------------------------------------- |
+| `createdAt`         | Identity block       | Card issuance timestamp                |
+| `lastTimestamp`     | Wallet+Runtime block | Time of the most recent write          |
+| `session.startTime` | Session block        | Time the current session was opened    |
+| `session.endTime`   | Session block        | Time the session was closed (0 = open) |
+| `expiresAt`         | Trailer              | Card expiry; no writes after this time |
 
 ## Expiry enforcement
 

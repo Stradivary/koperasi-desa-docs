@@ -2,12 +2,12 @@
 
 ## Algorithms
 
-| Purpose | Algorithm |
-|---------|----------|
-| Payload encryption | AES-256-GCM |
+| Purpose                | Algorithm                                     |
+| ---------------------- | --------------------------------------------- |
+| Payload encryption     | AES-256-GCM                                   |
 | Payload authentication | HMAC-SHA256 (truncated to 8 bytes in trailer) |
-| Key derivation | HKDF-SHA256 |
-| Log chain hash | SHA-256 (truncated to 6 bytes per entry) |
+| Key derivation         | HKDF-SHA256                                   |
+| Log chain hash         | SHA-256 (truncated to 6 bytes per entry)      |
 
 ## Encryption
 

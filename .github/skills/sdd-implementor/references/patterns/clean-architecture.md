@@ -1,6 +1,7 @@
 # Clean Architecture
 
 ## Purpose
+
 Organizes code into concentric dependency rings. Inner rings are pure domain logic; outer rings are infrastructure. Dependencies only point inward.
 
 ```
@@ -11,16 +12,18 @@ Organizes code into concentric dependency rings. Inner rings are pure domain log
 ```
 
 ## Layer Mapping from SDD
-| Spec Layer | Clean Arch Layer | Example |
-|------------|-----------------|---------|
-| Data Spec entities | Domain — Entities | `Card`, `Transaction` |
-| Tech Spec behaviors | Application — Use Cases | `LoadCardUseCase`, `ProcessPaymentUseCase` |
-| API Spec endpoints | Interface Adapters — Controllers | `CardController`, `SessionController` |
-| Data Spec storage | Interface Adapters — Gateways/Repos | `CardRepositoryImpl` |
-| Infrastructure | Frameworks & Drivers | NestJS, Prisma, HTTP client |
-| Security Spec rules | Domain — Policies | `BalanceCeilingPolicy`, `BlockedCardRule` |
+
+| Spec Layer          | Clean Arch Layer                    | Example                                    |
+| ------------------- | ----------------------------------- | ------------------------------------------ |
+| Data Spec entities  | Domain — Entities                   | `Card`, `Transaction`                      |
+| Tech Spec behaviors | Application — Use Cases             | `LoadCardUseCase`, `ProcessPaymentUseCase` |
+| API Spec endpoints  | Interface Adapters — Controllers    | `CardController`, `SessionController`      |
+| Data Spec storage   | Interface Adapters — Gateways/Repos | `CardRepositoryImpl`                       |
+| Infrastructure      | Frameworks & Drivers                | NestJS, Prisma, HTTP client                |
+| Security Spec rules | Domain — Policies                   | `BalanceCeilingPolicy`, `BlockedCardRule`  |
 
 ## Folder Structure
+
 ```
 src/
   domain/
@@ -49,12 +52,14 @@ src/
 ```
 
 ## Dependency Rule
+
 ```
 infrastructure → adapters → application → domain
 NEVER: domain → application, application → adapters, etc.
 ```
 
 ## Code Template (TypeScript / NestJS)
+
 ```ts
 // Spec: Tech Specs §3 — Card storage model
 // Pattern: Clean Architecture — Use Case
@@ -71,6 +76,7 @@ export class LoadCardUseCase {
 ```
 
 ## Antipatterns to Avoid
+
 - Importing Prisma/TypeORM inside a Use Case or Entity.
 - Putting business rules in Controllers.
 - Skipping the interface for repositories (breaks testability and DIP).

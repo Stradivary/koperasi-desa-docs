@@ -2,12 +2,12 @@
 
 ## States
 
-| State | Meaning |
-|-------|---------|
-| `IDLE` | Card is issued but no session is open. Waiting for gate check-in. |
-| `CHECKED_IN` | Gate has opened a session. Terminal debit operations are permitted. |
-| `TERMINAL_OPERATION` | A terminal is actively processing a write. Intermediate state during an A/B buffer flip. |
-| `CHECKED_OUT` | Session was closed by a gate. Card is reconcilable; no further debits until next check-in. |
+| State                | Meaning                                                                                    |
+| -------------------- | ------------------------------------------------------------------------------------------ |
+| `IDLE`               | Card is issued but no session is open. Waiting for gate check-in.                          |
+| `CHECKED_IN`         | Gate has opened a session. Terminal debit operations are permitted.                        |
+| `TERMINAL_OPERATION` | A terminal is actively processing a write. Intermediate state during an A/B buffer flip.   |
+| `CHECKED_OUT`        | Session was closed by a gate. Card is reconcilable; no further debits until next check-in. |
 
 ## Valid transitions
 

@@ -73,24 +73,24 @@ sidebars.js           # Sidebar navigation config
 
 Each spec folder follows this convention:
 
-| File | Purpose |
-|------|---------|
-| `index.md` | Table of contents + purpose statement |
-| `_category_.json` | Docusaurus sidebar display config |
-| `1_topic.md`, `2_topic.md`, … | Numbered spec documents |
+| File                          | Purpose                               |
+| ----------------------------- | ------------------------------------- |
+| `index.md`                    | Table of contents + purpose statement |
+| `_category_.json`             | Docusaurus sidebar display config     |
+| `1_topic.md`, `2_topic.md`, … | Numbered spec documents               |
 
 ---
 
 ## Docusaurus Commands
 
-| Command | Description |
-|---------|-------------|
-| `yarn start` | Start local dev server with hot reload |
-| `yarn build` | Build static site to `build/` |
-| `yarn serve` | Serve the built site locally |
-| `yarn clear` | Clear Docusaurus cache |
-| `yarn write-translations` | Extract translatable strings |
-| `yarn write-heading-ids` | Add explicit heading IDs to all docs |
+| Command                   | Description                            |
+| ------------------------- | -------------------------------------- |
+| `yarn start`              | Start local dev server with hot reload |
+| `yarn build`              | Build static site to `build/`          |
+| `yarn serve`              | Serve the built site locally           |
+| `yarn clear`              | Clear Docusaurus cache                 |
+| `yarn write-translations` | Extract translatable strings           |
+| `yarn write-heading-ids`  | Add explicit heading IDs to all docs   |
 
 ---
 
@@ -122,14 +122,14 @@ This repo ships a GitHub Copilot **`@sdd` skill** in `.github/skills/sdd/`. Invo
 
 #### Example prompts
 
-| Goal | Prompt |
-|------|--------|
-| Audit all spec layers | `@sdd audit all spec layers for the NFC wallet system` |
-| Write a missing spec | `@sdd write the security spec for the key trust model` |
-| Check spec consistency | `@sdd consistency check between tech-specs and api-spec` |
-| Write a new ADR | `@sdd write an ADR for switching from AES-CBC to AES-GCM` |
-| Review a single layer | `@sdd review system-design for gaps` |
-| Generate code from spec | `@sdd generate code — confirm layers 1–5 exist first` |
+| Goal                    | Prompt                                                    |
+| ----------------------- | --------------------------------------------------------- |
+| Audit all spec layers   | `@sdd audit all spec layers for the NFC wallet system`    |
+| Write a missing spec    | `@sdd write the security spec for the key trust model`    |
+| Check spec consistency  | `@sdd consistency check between tech-specs and api-spec`  |
+| Write a new ADR         | `@sdd write an ADR for switching from AES-CBC to AES-GCM` |
+| Review a single layer   | `@sdd review system-design for gaps`                      |
+| Generate code from spec | `@sdd generate code — confirm layers 1–5 exist first`     |
 
 #### When to use @sdd
 
@@ -146,15 +146,15 @@ This repo ships a GitHub Copilot **`@sdd` skill** in `.github/skills/sdd/`. Invo
 
 Run `@sdd audit all spec layers` to get a coverage table:
 
-| Layer | Status | Location | Gaps |
-|-------|--------|----------|------|
-| Product Spec | ✅ / ⚠️ partial / ❌ missing | `docs/product-spec/` | — |
-| System Design | … | `docs/system-design/` | — |
-| Tech Specs | … | `docs/tech-specs/` | — |
-| API Spec | … | `docs/api-spec/` | — |
-| Data Spec | … | `docs/data-spec/` | — |
-| Security Spec | … | `docs/security-spec/` | — |
-| Test Spec | … | `docs/test-spec/` | — |
+| Layer         | Status                       | Location              | Gaps |
+| ------------- | ---------------------------- | --------------------- | ---- |
+| Product Spec  | ✅ / ⚠️ partial / ❌ missing | `docs/product-spec/`  | —    |
+| System Design | …                            | `docs/system-design/` | —    |
+| Tech Specs    | …                            | `docs/tech-specs/`    | —    |
+| API Spec      | …                            | `docs/api-spec/`      | —    |
+| Data Spec     | …                            | `docs/data-spec/`     | —    |
+| Security Spec | …                            | `docs/security-spec/` | —    |
+| Test Spec     | …                            | `docs/test-spec/`     | —    |
 
 #### 2. Write specs top-down
 
@@ -167,6 +167,7 @@ Product Spec → System Design → Tech Specs → API Spec → Data Spec → Sec
 #### 3. Consistency check before code
 
 Before any code is generated:
+
 - Layers 1–3 must exist for the feature.
 - The relevant Data Spec and API Spec entries must exist.
 - If gaps remain → write the spec first, then generate code.
@@ -177,12 +178,12 @@ Before any code is generated:
 
 A spec is **complete** when it answers all five questions:
 
-| Question | Must answer |
-|----------|------------|
-| **Who** | Roles and trust level |
-| **What** | Behavior, not implementation |
-| **Why** | Constraints and goals |
-| **How it fails** | Error cases and edge cases |
+| Question           | Must answer                            |
+| ------------------ | -------------------------------------- |
+| **Who**            | Roles and trust level                  |
+| **What**           | Behavior, not implementation           |
+| **Why**            | Constraints and goals                  |
+| **How it fails**   | Error cases and edge cases             |
 | **What proves it** | Test assertions or acceptance criteria |
 
 A spec is **draft** if any of the above are missing. Mark drafts with:

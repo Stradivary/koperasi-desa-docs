@@ -26,6 +26,7 @@ These limits are enforced by both the terminal (via session grant policy) and th
 ## Consequences
 
 **Positive:**
+
 - uint32 is 4 bytes — a known, compact, portable integer type. It fits within the card payload with zero ambiguity.
 - Integer arithmetic in the smallest unit eliminates all floating-point rounding errors.
 - The Rp 16 M ceiling bounds worst-case per-card exposure if the card is cloned or the session key is leaked.
@@ -33,22 +34,24 @@ These limits are enforced by both the terminal (via session grant policy) and th
 - uint32 supports values up to ≈ Rp 4.3 billion, providing headroom for potential currency or region expansions without a card schema change.
 
 **Negative:**
+
 - The Rp 16 M ceiling may be too low for high-value venue scenarios (e.g., corporate expense cards). Raising the ceiling requires a policy change, not a schema change (the uint32 type can accommodate higher values).
 - Denominating in the smallest unit (Rupiah) means the balance field cannot represent currencies with sub-unit precision (e.g., USD cents) without a convention change.
 - `lastBalance` (the balance before the most recent transaction, stored for rollback detection) also uses uint32, doubling the storage cost for balance-related fields.
 
 **Risks:**
+
 - If the operational ceiling is raised by backend policy without reviewing the session grant TTL and reconciliation frequency, the worst-case fraud exposure increases proportionally. Ceiling, TTL, and reconciliation frequency must be reviewed together as a risk triad.
 
 ## Alternatives Considered
 
-| Option | Reason Rejected |
-|--------|-----------------|
-| **uint64 (8 bytes)** | Double the storage cost (8 bytes vs 4 bytes). The uint32 ceiling of ≈ Rp 4.3 billion is already far above any realistic card balance need. The extra range is not justified. |
-| **uint16 (2 bytes)** | Maximum value of 65,535 is too small even for a modest Rp 65,535 limit. Would require storing balance in units of Rp 100 or Rp 1,000, introducing rounding errors and ambiguity. |
-| **Fixed-point float (e.g., 32-bit IEEE 754)** | Float32 cannot exactly represent all integer values above 2^24 (≈ 16 million). For balances near the ceiling, float32 introduces representation errors that differ by platform. Unacceptable for a financial system. |
-| **String / BCD** | Variable or inflated byte cost. Parsing overhead. Not appropriate for a compact binary card layout. |
-| **No ceiling (system max only)** | Without an operational ceiling enforced by policy, a stolen card or compromised session key has unlimited exposure up to `uint32_max` ≈ Rp 4.3 billion. The ceiling exists to bound worst-case fraud, not as a type constraint. |
+| Option                                        | Reason Rejected                                                                                                                                                                                                                 |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **uint64 (8 bytes)**                          | Double the storage cost (8 bytes vs 4 bytes). The uint32 ceiling of ≈ Rp 4.3 billion is already far above any realistic card balance need. The extra range is not justified.                                                    |
+| **uint16 (2 bytes)**                          | Maximum value of 65,535 is too small even for a modest Rp 65,535 limit. Would require storing balance in units of Rp 100 or Rp 1,000, introducing rounding errors and ambiguity.                                                |
+| **Fixed-point float (e.g., 32-bit IEEE 754)** | Float32 cannot exactly represent all integer values above 2^24 (≈ 16 million). For balances near the ceiling, float32 introduces representation errors that differ by platform. Unacceptable for a financial system.            |
+| **String / BCD**                              | Variable or inflated byte cost. Parsing overhead. Not appropriate for a compact binary card layout.                                                                                                                             |
+| **No ceiling (system max only)**              | Without an operational ceiling enforced by policy, a stolen card or compromised session key has unlimited exposure up to `uint32_max` ≈ Rp 4.3 billion. The ceiling exists to bound worst-case fraud, not as a type constraint. |
 
 ## References
 

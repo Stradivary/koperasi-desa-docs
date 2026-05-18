@@ -2,13 +2,13 @@
 
 ## Status codes
 
-| Code | Name | Description |
-|------|------|-------------|
-| `0` | `ACTIVE` | Card is in normal operation |
-| `1` | `BLOCKED_TAMPER` | Cryptographic or chain integrity check failed |
-| `2` | `BLOCKED_FRAUD` | Suspicious behavior detected by terminal or backend |
-| `3` | `BLOCKED_EXPIRED` | Card or session has passed its expiry date |
-| `4` | `BLOCKED_ADMIN` | Manually decommissioned by an operator |
+| Code | Name              | Description                                         |
+| ---- | ----------------- | --------------------------------------------------- |
+| `0`  | `ACTIVE`          | Card is in normal operation                         |
+| `1`  | `BLOCKED_TAMPER`  | Cryptographic or chain integrity check failed       |
+| `2`  | `BLOCKED_FRAUD`   | Suspicious behavior detected by terminal or backend |
+| `3`  | `BLOCKED_EXPIRED` | Card or session has passed its expiry date          |
+| `4`  | `BLOCKED_ADMIN`   | Manually decommissioned by an operator              |
 
 The `status` field lives in the Identity Block of the card payload (see §3).
 
@@ -21,13 +21,13 @@ The `status` field lives in the Identity Block of the card payload (see §3).
 
 ## Status transitions
 
-| From | To | Trigger | Who |
-|------|----|---------|-----|
-| `ACTIVE` | `BLOCKED_TAMPER` | Integrity check failure | Terminal (on write) |
-| `ACTIVE` | `BLOCKED_FRAUD` | Fraud signal | Terminal or backend |
-| `ACTIVE` | `BLOCKED_EXPIRED` | `expiresAt` passed | Terminal |
-| `ACTIVE` | `BLOCKED_ADMIN` | Operator instruction | Station |
-| Any blocked | `ACTIVE` | Re-issuance | Station only |
+| From        | To                | Trigger                 | Who                 |
+| ----------- | ----------------- | ----------------------- | ------------------- |
+| `ACTIVE`    | `BLOCKED_TAMPER`  | Integrity check failure | Terminal (on write) |
+| `ACTIVE`    | `BLOCKED_FRAUD`   | Fraud signal            | Terminal or backend |
+| `ACTIVE`    | `BLOCKED_EXPIRED` | `expiresAt` passed      | Terminal            |
+| `ACTIVE`    | `BLOCKED_ADMIN`   | Operator instruction    | Station             |
+| Any blocked | `ACTIVE`          | Re-issuance             | Station only        |
 
 Blocked cards may not transition to `ACTIVE` in the field. Re-activation requires a physical station re-issuance.
 

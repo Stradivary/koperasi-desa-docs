@@ -1,17 +1,21 @@
 # Strategy Pattern
 
 ## Purpose
+
 Define a family of interchangeable algorithms/behaviors behind a common interface. Select the algorithm at runtime without changing the client.
 
 ## SDD Trigger
+
 Any spec constraint that says "depending on X, the system does Y differently" → Strategy.
 
 Examples from this workspace:
+
 - System Design §9 write-strategy → `IWriteStrategy` with `BufferedWrite` and `DirectWrite`
 - Tech Specs §9 risk limits → `ILimitPolicy` with `BalanceCeilingPolicy`, `DailyCapPolicy`
 - ADR §1 AB buffer → `IBufferStrategy`
 
 ## Structure
+
 ```
 IStrategy
   ├── ConcreteStrategyA
@@ -23,6 +27,7 @@ Context
 ```
 
 ## Code Template (TypeScript)
+
 ```ts
 // Spec: System Design §9 — Write strategy
 // Pattern: Strategy
@@ -54,6 +59,7 @@ export class CardWriteService {
 ```
 
 ## When to Use vs. Other Patterns
+
 - Use **Strategy** when behavior varies per runtime condition.
 - Use **Template Method** when the algorithm skeleton is fixed but steps vary.
 - Use **Chain of Responsibility** when multiple handlers may process in sequence.

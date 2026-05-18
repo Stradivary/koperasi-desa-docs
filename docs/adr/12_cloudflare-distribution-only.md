@@ -39,11 +39,11 @@ Standardize Cloudflare as the primary static distribution platform and optionall
 
 ## Alternatives Considered
 
-| Option | Reason Rejected |
-|--------|-----------------|
-| **Treat Cloudflare as required runtime for all terminal logic** | Violates local-first and offline resiliency goals. |
-| **Use Cloudflare for distribution only, no backend APIs** | Removes useful optional sync capabilities for policy and reconciliation. |
-| **Use mixed provider hosting for backend APIs** | Increases operational variance and reduces predictability. |
+| Option                                                          | Reason Rejected                                                          |
+| --------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| **Treat Cloudflare as required runtime for all terminal logic** | Violates local-first and offline resiliency goals.                       |
+| **Use Cloudflare for distribution only, no backend APIs**       | Removes useful optional sync capabilities for policy and reconciliation. |
+| **Use mixed provider hosting for backend APIs**                 | Increases operational variance and reduces predictability.               |
 
 ## References
 

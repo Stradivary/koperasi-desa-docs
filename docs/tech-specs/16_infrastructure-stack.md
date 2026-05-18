@@ -29,12 +29,12 @@ This section describes the deployment pattern and runtime expectations for the a
 
 ## Latency requirements
 
-| Operation | Target latency | Notes |
-|-----------|---------------|-------|
-| Static asset delivery | < 200 ms | Optimized by CDN / Cloudflare Pages |
-| Local grant validation | < 50 ms | Local-first and browser-executed |
-| Reconciliation upload | < 1 s | Batch; not on the critical path |
-| Tenant metadata sync | < 500 ms | Optional remote refresh |
+| Operation              | Target latency | Notes                               |
+| ---------------------- | -------------- | ----------------------------------- |
+| Static asset delivery  | < 200 ms       | Optimized by CDN / Cloudflare Pages |
+| Local grant validation | < 50 ms        | Local-first and browser-executed    |
+| Reconciliation upload  | < 1 s          | Batch; not on the critical path     |
+| Tenant metadata sync   | < 500 ms       | Optional remote refresh             |
 
 ## Availability requirements
 

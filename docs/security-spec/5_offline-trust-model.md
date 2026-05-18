@@ -18,24 +18,24 @@ The terminal acts on the grant it holds. Once the grant expires, the terminal mu
 
 ## Session grant security properties
 
-| Property | Implementation |
-|----------|---------------|
-| Authenticity | Backend ECDSA / HMAC-SHA256 signature; terminal validates before use |
-| Scope binding | Grant contains `tenantId`, `accountId`, `deviceId`, `allowedOps` |
-| Time bounding | `expiresAt` enforced by terminal clock; drift allowance ≤ 1 hour |
-| Non-persistence | Session key held in process memory only; never written to disk |
-| Single-device | Grant is bound to the issuing `deviceId`; sharing grants across devices is detectable |
+| Property        | Implementation                                                                        |
+| --------------- | ------------------------------------------------------------------------------------- |
+| Authenticity    | Backend ECDSA / HMAC-SHA256 signature; terminal validates before use                  |
+| Scope binding   | Grant contains `tenantId`, `accountId`, `deviceId`, `allowedOps`                      |
+| Time bounding   | `expiresAt` enforced by terminal clock; drift allowance ≤ 1 hour                      |
+| Non-persistence | Session key held in process memory only; never written to disk                        |
+| Single-device   | Grant is bound to the issuing `deviceId`; sharing grants across devices is detectable |
 
 ---
 
 ## Replay attack mitigations
 
-| Attack vector | Mitigation |
-|--------------|------------|
-| Replaying an old card read | Monotonic write counter; terminal rejects counter ≤ last known |
-| Replaying a reconciliation batch | `UNIQUE (tenant_id, card_id, counter)` in `audit_log` |
-| Replaying a session grant | Grants are bound to `deviceId`; backend tracks last-used counter per device |
-| Replaying a top-up request | Top-ups require live backend validation; no offline credit allowed |
+| Attack vector                    | Mitigation                                                                  |
+| -------------------------------- | --------------------------------------------------------------------------- |
+| Replaying an old card read       | Monotonic write counter; terminal rejects counter ≤ last known              |
+| Replaying a reconciliation batch | `UNIQUE (tenant_id, card_id, counter)` in `audit_log`                       |
+| Replaying a session grant        | Grants are bound to `deviceId`; backend tracks last-used counter per device |
+| Replaying a top-up request       | Top-ups require live backend validation; no offline credit allowed          |
 
 ---
 
@@ -46,6 +46,7 @@ The maximum financial exposure from a compromised terminal operating entirely of
 `E_max = n_terminals × Rp 5,000,000 × ceil(TTL / session length)`
 
 Where:
+
 - `n_terminals` is the number of compromised terminals
 - Rp 5,000,000 is the recommended balance cap (backend policy)
 - `TTL` is the session grant TTL (backend-controlled, 1–24 hours)

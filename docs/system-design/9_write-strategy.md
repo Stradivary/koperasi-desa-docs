@@ -6,7 +6,7 @@ NFC writes are not atomic at the hardware level. A power loss or tap interruptio
 
 ## How it works
 
-The card payload is stored in two mirrored buffers (Zone A and Zone B). At any moment, one buffer is the *active* buffer (indicated by `activePtr` in the trailer) and the other is the *shadow* buffer.
+The card payload is stored in two mirrored buffers (Zone A and Zone B). At any moment, one buffer is the _active_ buffer (indicated by `activePtr` in the trailer) and the other is the _shadow_ buffer.
 
 A write always targets the shadow buffer first. Only after the write is verified does `activePtr` flip to make the new buffer authoritative. If the write fails or cannot be verified, the active buffer is unchanged and the card remains in its previous valid state.
 

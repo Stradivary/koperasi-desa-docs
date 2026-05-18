@@ -4,11 +4,11 @@
 
 The offline NFC wallet system has three distinct storage areas, each owned by a different layer of the architecture:
 
-| Area | Location | Owner | Access |
-|------|----------|-------|--------|
-| **Card binary payload** | NTAG215 NFC chip | Terminal / card hardware | Read: any terminal or gate app. Write: terminal or station with valid session grant |
-| **Backend database** | Server (SQLite or equivalent lightweight SQL database) | Backend service | Read/write: backend API only. Never accessed directly by terminals |
-| **Local-first replica** | Browser IndexedDB on enrolled device | Tenant-scoped client runtime | Read/write: authenticated app only; stores cached policies, account context, card snapshots, and queued outbox events |
+| Area                    | Location                                               | Owner                        | Access                                                                                                                |
+| ----------------------- | ------------------------------------------------------ | ---------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| **Card binary payload** | NTAG215 NFC chip                                       | Terminal / card hardware     | Read: any terminal or gate app. Write: terminal or station with valid session grant                                   |
+| **Backend database**    | Server (SQLite or equivalent lightweight SQL database) | Backend service              | Read/write: backend API only. Never accessed directly by terminals                                                    |
+| **Local-first replica** | Browser IndexedDB on enrolled device                   | Tenant-scoped client runtime | Read/write: authenticated app only; stores cached policies, account context, card snapshots, and queued outbox events |
 
 ## Data flow
 

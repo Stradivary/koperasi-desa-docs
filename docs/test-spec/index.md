@@ -12,19 +12,19 @@ This folder defines **what proves correctness** for the offline NFC wallet syste
 
 ## Spec coverage matrix
 
-| Spec layer | Covered by |
-|-----------|-----------|
+| Spec layer                          | Covered by                                                               |
+| ----------------------------------- | ------------------------------------------------------------------------ |
 | Product Spec §4 Acceptance Criteria | E2E tests — all 14 acceptance criteria have a corresponding E2E scenario |
-| System Design §3 Security Model | Unit tests (crypto, tamper); E2E tests (tamper, session expiry) |
-| Tech Specs §4 Cryptography | Unit tests — key derivation, HMAC, nonce, AES-GCM |
-| Tech Specs §5 Tamper Detection | Unit tests — each of the 10 validation steps; E2E — tamper scenario |
-| Tech Specs §6 State Machine | Unit tests — each transition; E2E — session lifecycle |
-| Tech Specs §9 Risk Limits | Unit tests — limit enforcement; E2E — limit breach behaviour |
-| API Spec §2 Authentication | E2E — auth flow, MFA, tenant switching, token rotation |
-| Data Spec §5 Local-first Storage | Unit tests — outbox, checkpoint, snapshot stores |
-| Security Spec §2 Auth & AuthZ | E2E — RBAC enforcement, cross-tenant access attempt |
-| Security Spec §4 Tamper Detection | E2E — tamper report flow |
-| Security Spec §7 Financial Risk | E2E — limit breach flagging and operator notification |
+| System Design §3 Security Model     | Unit tests (crypto, tamper); E2E tests (tamper, session expiry)          |
+| Tech Specs §4 Cryptography          | Unit tests — key derivation, HMAC, nonce, AES-GCM                        |
+| Tech Specs §5 Tamper Detection      | Unit tests — each of the 10 validation steps; E2E — tamper scenario      |
+| Tech Specs §6 State Machine         | Unit tests — each transition; E2E — session lifecycle                    |
+| Tech Specs §9 Risk Limits           | Unit tests — limit enforcement; E2E — limit breach behaviour             |
+| API Spec §2 Authentication          | E2E — auth flow, MFA, tenant switching, token rotation                   |
+| Data Spec §5 Local-first Storage    | Unit tests — outbox, checkpoint, snapshot stores                         |
+| Security Spec §2 Auth & AuthZ       | E2E — RBAC enforcement, cross-tenant access attempt                      |
+| Security Spec §4 Tamper Detection   | E2E — tamper report flow                                                 |
+| Security Spec §7 Financial Risk     | E2E — limit breach flagging and operator notification                    |
 
 ## Upstream sources
 

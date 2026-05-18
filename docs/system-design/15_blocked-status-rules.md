@@ -13,16 +13,17 @@ Not every suspicious event results in an immediate block. The system distinguish
 ## Warning-to-block escalation
 
 A soft warning may escalate to a hard block if:
+
 - The same card triggers warnings repeatedly across multiple reconciliation windows.
 - A backend-side anomaly detector flags the card based on aggregated event history.
 - An operator reviews the warnings and confirms a block via the Station app.
 
 ## Behaviour summary
 
-| Status | Writes | Reads | Recovery |
-|--------|--------|-------|----------|
-| ACTIVE | ✅ | ✅ | N/A |
-| BLOCKED_TAMPER | ❌ | ✅ | Station reissue + backend auth |
-| BLOCKED_FRAUD | ❌ | ✅ | Station reissue + backend auth |
-| BLOCKED_EXPIRED | ❌ | ✅ | Station renewal |
-| BLOCKED_ADMIN | ❌ | ✅ | Station reissue + operator confirmation |
+| Status          | Writes | Reads | Recovery                                |
+| --------------- | ------ | ----- | --------------------------------------- |
+| ACTIVE          | ✅     | ✅    | N/A                                     |
+| BLOCKED_TAMPER  | ❌     | ✅    | Station reissue + backend auth          |
+| BLOCKED_FRAUD   | ❌     | ✅    | Station reissue + backend auth          |
+| BLOCKED_EXPIRED | ❌     | ✅    | Station renewal                         |
+| BLOCKED_ADMIN   | ❌     | ✅    | Station reissue + operator confirmation |

@@ -2,19 +2,19 @@
 
 ## Card type
 
-| Card | Standard | Form factor | Source |
-|------|----------|-------------|--------|
-| **NXP NTAG215** | ISO 14443-3A (NfcA), NFC Forum Type 2 | Plain white PVC sticker or card | Self-purchased for production deployment |
+| Card            | Standard                              | Form factor                     | Source                                                           |
+| --------------- | ------------------------------------- | ------------------------------- | ---------------------------------------------------------------- |
+| **NXP NTAG215** | ISO 14443-3A (NfcA), NFC Forum Type 2 | Plain white PVC sticker or card | Self-purchased for production deployment                         |
 | **NXP NTAG216** | ISO 14443-3A (NfcA), NFC Forum Type 2 | Plain white PVC sticker or card | Sourced for requirement validation and extended-capacity testing |
 
 **Assumption**: NTAG215 is the production baseline. All storage budgets and layout constraints are designed to fit within NTAG215's usable capacity. NTAG216 cards are used during development and integration testing to validate extended log retention and future-proofing. The system will work on NTAG216 without code changes.
 
 ## Capacity
 
-| Card | Usable bytes | Buffer capacity | Log entries |
-|------|-------------|-----------------|-------------|
-| NTAG215 | ~492 bytes | ~216 bytes per buffer | 7 entries |
-| NTAG216 | ~1024 bytes | ~448 bytes per buffer | ~21 entries |
+| Card    | Usable bytes | Buffer capacity       | Log entries |
+| ------- | ------------ | --------------------- | ----------- |
+| NTAG215 | ~492 bytes   | ~216 bytes per buffer | 7 entries   |
+| NTAG216 | ~1024 bytes  | ~448 bytes per buffer | ~21 entries |
 
 ## Limitations
 

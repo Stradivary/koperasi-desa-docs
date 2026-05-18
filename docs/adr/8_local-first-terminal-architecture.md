@@ -46,11 +46,11 @@ The terminal architecture is defined as local-first:
 
 ## Alternatives Considered
 
-| Option | Reason Rejected |
-|--------|-----------------|
-| **Fully server-driven transaction engine** | Requires backend connectivity for every transaction, undermining offline usability and local-area adoption. |
-| **Backend-backed UI with local cache only for read state** | Still leaves writes blocked when offline; does not satisfy the offline terminal requirement. |
-| **Peer-to-peer sync between terminals** | Adds complexity and security risk; not aligned with the current deployment model or tenant trust boundaries. |
+| Option                                                     | Reason Rejected                                                                                              |
+| ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| **Fully server-driven transaction engine**                 | Requires backend connectivity for every transaction, undermining offline usability and local-area adoption.  |
+| **Backend-backed UI with local cache only for read state** | Still leaves writes blocked when offline; does not satisfy the offline terminal requirement.                 |
+| **Peer-to-peer sync between terminals**                    | Adds complexity and security risk; not aligned with the current deployment model or tenant trust boundaries. |
 
 ## References
 

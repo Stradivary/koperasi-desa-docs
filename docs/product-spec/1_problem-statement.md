@@ -21,6 +21,7 @@ The system does not eliminate trust in the backend — it **defers it**. Termina
 ## Success definition
 
 The system succeeds when:
+
 - A terminal can complete a debit or check-in transaction with no network access and the event is later reconciled without discrepancy.
 - Tamper, clone, or replay attempts on a card are detected before any value change is committed.
 - A lost or stolen card causes bounded financial exposure within the session grant scope.

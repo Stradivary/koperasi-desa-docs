@@ -13,6 +13,7 @@ Every test assertion must trace to at least one claim in a spec layer above it. 
 **Scope**: a single pure function or module in isolation. External dependencies (backend API, IndexedDB, NFC hardware) are replaced by deterministic fakes or mocks.
 
 **What is unit-tested**:
+
 - Cryptographic primitives: key derivation, HMAC, nonce generation, AES-GCM encrypt/decrypt
 - The full 10-step card validation sequence (each step independently and in combination)
 - Card state machine transitions (valid and invalid)
@@ -22,6 +23,7 @@ Every test assertion must trace to at least one claim in a spec layer above it. 
 - Encoding / decoding of binary card fields
 
 **What is not unit-tested**:
+
 - Web NFC hardware interactions (integration or E2E scope)
 - Live backend responses (E2E scope)
 - Full reconciliation round-trips (E2E scope)
@@ -31,6 +33,7 @@ Every test assertion must trace to at least one claim in a spec layer above it. 
 **Scope**: the full application stack from browser UI through to backend API and back, running against a real (seeded) test database and a mock NFC card reader.
 
 **What is E2E-tested**:
+
 - Complete offline transaction flows including card read, write, and state transitions
 - Tamper detection: deliberately corrupted cards trigger the correct response chain
 - Session lifecycle: check-in, transaction, check-out, session expiry
@@ -40,6 +43,7 @@ Every test assertion must trace to at least one claim in a spec layer above it. 
 - Financial limit enforcement from the UI through to backend flag
 
 **What is not E2E-tested**:
+
 - Physical NFC hardware failure modes (separate hardware integration tests)
 - HSM integration (covered by infrastructure tests)
 
@@ -47,39 +51,39 @@ Every test assertion must trace to at least one claim in a spec layer above it. 
 
 ## Tooling
 
-| Layer | Tool | Notes |
-|-------|------|-------|
-| Unit tests | **Vitest** | Co-located with source files as `*.test.ts`; runs in Node and jsdom |
-| E2E tests | **Playwright** | Chromium (Web NFC available via mock); tests in `e2e/` directory |
-| NFC mock | Custom Playwright fixture | Intercepts `NDEFReader` and `NDEFWriter` calls; feeds deterministic card payloads |
-| Backend test instance | Miniflare (Cloudflare Workers) | In-process; seeded before each E2E suite |
-| Test database | SQLite (D1 compat) | Reset before each E2E suite; pre-seeded with tenant, account, and card fixtures |
-| Coverage | Vitest `v8` provider | Target: 90% line coverage on crypto, validation, and state-machine modules |
+| Layer                 | Tool                           | Notes                                                                             |
+| --------------------- | ------------------------------ | --------------------------------------------------------------------------------- |
+| Unit tests            | **Vitest**                     | Co-located with source files as `*.test.ts`; runs in Node and jsdom               |
+| E2E tests             | **Playwright**                 | Chromium (Web NFC available via mock); tests in `e2e/` directory                  |
+| NFC mock              | Custom Playwright fixture      | Intercepts `NDEFReader` and `NDEFWriter` calls; feeds deterministic card payloads |
+| Backend test instance | Miniflare (Cloudflare Workers) | In-process; seeded before each E2E suite                                          |
+| Test database         | SQLite (D1 compat)             | Reset before each E2E suite; pre-seeded with tenant, account, and card fixtures   |
+| Coverage              | Vitest `v8` provider           | Target: 90% line coverage on crypto, validation, and state-machine modules        |
 
 ---
 
 ## Environments
 
-| Environment | Used by | Database | Backend |
-|-------------|---------|---------|---------|
-| Local development | Developer | Local SQLite seed | Miniflare dev mode |
-| CI (GitHub Actions) | Automated tests | In-memory SQLite | Miniflare |
-| Staging | Pre-release E2E | Staging D1 | Real Cloudflare Worker |
-| Production | — | — | Not tested (monitors only) |
+| Environment         | Used by         | Database          | Backend                    |
+| ------------------- | --------------- | ----------------- | -------------------------- |
+| Local development   | Developer       | Local SQLite seed | Miniflare dev mode         |
+| CI (GitHub Actions) | Automated tests | In-memory SQLite  | Miniflare                  |
+| Staging             | Pre-release E2E | Staging D1        | Real Cloudflare Worker     |
+| Production          | —               | —                 | Not tested (monitors only) |
 
 ---
 
 ## Coverage requirements
 
-| Module | Minimum line coverage |
-|--------|--------------------|
-| `crypto/` (key derivation, HMAC, nonce, AES) | 100% |
-| `validation/` (tamper detection steps 0–10) | 100% |
-| `state-machine/` (card state transitions) | 95% |
-| `limits/` (financial limit enforcement) | 95% |
-| `outbox/` (local-first reconciliation outbox) | 90% |
-| `auth/` (token parse, scope check, expiry) | 95% |
-| Everything else | 80% |
+| Module                                        | Minimum line coverage |
+| --------------------------------------------- | --------------------- |
+| `crypto/` (key derivation, HMAC, nonce, AES)  | 100%                  |
+| `validation/` (tamper detection steps 0–10)   | 100%                  |
+| `state-machine/` (card state transitions)     | 95%                   |
+| `limits/` (financial limit enforcement)       | 95%                   |
+| `outbox/` (local-first reconciliation outbox) | 90%                   |
+| `auth/` (token parse, scope check, expiry)    | 95%                   |
+| Everything else                               | 80%                   |
 
 CI must fail on any coverage drop below the above thresholds.
 

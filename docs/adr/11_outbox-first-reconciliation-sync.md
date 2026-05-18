@@ -43,11 +43,11 @@ Adopt an **outbox-first** sync model:
 
 ## Alternatives Considered
 
-| Option | Reason Rejected |
-|--------|-----------------|
-| **Pull-before-push sync** | Can drop or overwrite pending offline writes with newer server state. |
-| **Immediate direct backend commit for every operation** | Breaks offline-first requirements and reduces terminal availability. |
-| **Two-way merge on every reconnect** | Requires more coordination and increases complexity without clear benefit for the outbox-first use case. |
+| Option                                                  | Reason Rejected                                                                                          |
+| ------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| **Pull-before-push sync**                               | Can drop or overwrite pending offline writes with newer server state.                                    |
+| **Immediate direct backend commit for every operation** | Breaks offline-first requirements and reduces terminal availability.                                     |
+| **Two-way merge on every reconnect**                    | Requires more coordination and increases complexity without clear benefit for the outbox-first use case. |
 
 ## References
 

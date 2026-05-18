@@ -29,34 +29,38 @@ Multiple NXP NTAG variants exist in the Type 2 family: NTAG213 (144 bytes), NTAG
 - Per-card cost at retail quantities is ≤ Rp 5,000 (approximately USD 0.30), which is acceptable for a venue-scale deployment.
 
 **NTAG216** is retained as the development and testing baseline:
+
 - Provides ~872 bytes, which accommodates extended transaction logs (up to 25+ entries), larger payloads, and developer experimentation.
 - Not deployed to members; used only in development and QA environments.
 
 ## Consequences
 
 **Positive:**
+
 - No vendor lock-in; cards are commodity hardware available globally.
 - Low per-unit cost supports large-scale member distribution.
 - ISO 14443-3A compliance ensures compatibility with the Web NFC API on Android Chrome.
 - Sufficient capacity for the full system payload including 7-entry log and A/B buffers.
 
 **Negative:**
+
 - 492 bytes is tight. Future payload extensions (additional metadata, longer logs) will require schema discipline or a card upgrade.
 - NTAG215 has no secure element and no hardware-enforced access control. Full attacker read and write access must be assumed; all security must be achieved through software cryptography.
 - The 7-entry transaction log limit (imposed by NTAG215 capacity) means reconciliation must occur frequently to avoid losing log history.
 
 **Risks:**
+
 - If the byte budget is exceeded by future feature additions, a hardware card swap is required (NTAG215 → NTAG216). Existing member cards cannot be upgraded in place; a re-issuance campaign would be needed.
 - Supply chain disruption for NTAG215 chips would require re-qualifying NTAG216 or another Type 2 card. The schema is designed to be card-type-agnostic; capacity limits are the only variable.
 
 ## Alternatives Considered
 
-| Option | Reason Rejected |
-|--------|-----------------|
-| **NTAG213 (144 bytes)** | Insufficient capacity for the full payload with A/B buffers and a log. Cannot hold the minimum viable card state. |
-| **NTAG216 (production)** | Per-unit cost is higher; overkill for production use given the current payload fits in NTAG215. Reserved for development. |
+| Option                                               | Reason Rejected                                                                                                                                                                                 |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **NTAG213 (144 bytes)**                              | Insufficient capacity for the full payload with A/B buffers and a log. Cannot hold the minimum viable card state.                                                                               |
+| **NTAG216 (production)**                             | Per-unit cost is higher; overkill for production use given the current payload fits in NTAG215. Reserved for development.                                                                       |
 | **Cards with secure element (e.g., MIFARE DESFire)** | Significantly higher cost (10–50× per card). Requires vendor-specific SDKs and provisioning infrastructure. Not compatible with Web NFC API without a native bridge. Introduces vendor lock-in. |
-| **QR code / barcode instead of NFC** | Cannot hold mutable state; requires backend round-trip on every scan; no offline capability. Fundamentally incompatible with the offline-first design requirement. |
+| **QR code / barcode instead of NFC**                 | Cannot hold mutable state; requires backend round-trip on every scan; no offline capability. Fundamentally incompatible with the offline-first design requirement.                              |
 
 ## References
 

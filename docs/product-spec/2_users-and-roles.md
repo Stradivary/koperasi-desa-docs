@@ -2,15 +2,15 @@
 
 ## Role table
 
-| Role | Description | Trust Level | App |
-|------|-------------|-------------|-----|
-| **Member** | Cardholder. Uses an NFC card as a prepaid wallet. May check their own balance and history. Cannot modify card state directly. | Untrusted — card contents are unverified until cryptographically validated | Scout (read-only) |
-| **Koperasi admin** | Tenant administrator for a single koperasi. Manages operator accounts, devices, policies, and audit access for that koperasi only. | Trusted within tenant scope only | Admin UI |
-| **Terminal operator** | Staff at a point-of-sale or service point. Executes debits, check-ins, and check-outs. Operates primarily offline. | Conditionally trusted — terminal acts within the scope of a backend-issued session grant | Terminal app |
-| **Gate operator** | Staff managing entry/exit points. Validates card status and session lifecycle (CHECKED_IN / CHECKED_OUT). | Conditionally trusted — same session grant model as terminal | Gate app |
-| **Station operator** | Administrative staff. Registers new cards, tops up balances, issues and blocks cards. Always requires backend connectivity. | Trusted — all station operations are online and backend-validated | Station app |
-| **Backend operator / reconciler** | Internal staff who review reconciliation reports, resolve disputes, and manage risk flags. No direct card interaction. | Trusted — operates on backend data only | Backend admin UI |
-| **System (backend)** | Issues session grants, validates reconciliation batches, enforces financial limits, maintains the audit log. | Authoritative — the root of trust for all policy and key material | Nitro backend service |
+| Role                              | Description                                                                                                                        | Trust Level                                                                              | App                   |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | --------------------- |
+| **Member**                        | Cardholder. Uses an NFC card as a prepaid wallet. May check their own balance and history. Cannot modify card state directly.      | Untrusted — card contents are unverified until cryptographically validated               | Scout (read-only)     |
+| **Koperasi admin**                | Tenant administrator for a single koperasi. Manages operator accounts, devices, policies, and audit access for that koperasi only. | Trusted within tenant scope only                                                         | Admin UI              |
+| **Terminal operator**             | Staff at a point-of-sale or service point. Executes debits, check-ins, and check-outs. Operates primarily offline.                 | Conditionally trusted — terminal acts within the scope of a backend-issued session grant | Terminal app          |
+| **Gate operator**                 | Staff managing entry/exit points. Validates card status and session lifecycle (CHECKED_IN / CHECKED_OUT).                          | Conditionally trusted — same session grant model as terminal                             | Gate app              |
+| **Station operator**              | Administrative staff. Registers new cards, tops up balances, issues and blocks cards. Always requires backend connectivity.        | Trusted — all station operations are online and backend-validated                        | Station app           |
+| **Backend operator / reconciler** | Internal staff who review reconciliation reports, resolve disputes, and manage risk flags. No direct card interaction.             | Trusted — operates on backend data only                                                  | Backend admin UI      |
+| **System (backend)**              | Issues session grants, validates reconciliation batches, enforces financial limits, maintains the audit log.                       | Authoritative — the root of trust for all policy and key material                        | Nitro backend service |
 
 ## Role constraints
 

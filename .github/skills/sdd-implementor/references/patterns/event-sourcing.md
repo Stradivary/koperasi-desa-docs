@@ -1,14 +1,17 @@
 # Event Sourcing
 
 ## Purpose
+
 Instead of storing only the current state, store every state-changing **event** in an append-only log. Current state is derived by replaying events. Provides full audit history and enables temporal queries.
 
 ## SDD Trigger
+
 - System Design §6 — log chain model → the hash-chain transaction log is effectively an event store.
 - ADR §5 — hash-chain log → each entry is an immutable domain event.
 - Any spec requirement for full audit trail, undo, or replay.
 
 ## Concepts
+
 ```
 Event      → Immutable fact: "CardDebited { uid, amount, timestamp }"
 Aggregate  → Domain object that applies events to rebuild state (Card)
@@ -17,22 +20,24 @@ Projection → Read model built by processing event stream
 ```
 
 ## Layer Mapping from SDD
-| Spec Layer | Event Sourcing Role |
-|------------|---------------------|
-| System Design §6 log chain | Event Store (append-only) |
-| Tech Specs §14 transaction log | Event schema / format |
-| Data Spec storage | EventStore persistence adapter |
+
+| Spec Layer                     | Event Sourcing Role                         |
+| ------------------------------ | ------------------------------------------- |
+| System Design §6 log chain     | Event Store (append-only)                   |
+| Tech Specs §14 transaction log | Event schema / format                       |
+| Data Spec storage              | EventStore persistence adapter              |
 | System Design §4 state machine | Aggregate state rebuilt by replaying events |
-| API Spec GET endpoints | Projections / read models |
+| API Spec GET endpoints         | Projections / read models                   |
 
 ## Code Template (TypeScript — NestJS backend)
+
 ```ts
 // Spec: System Design §6 — Log chain model
 // Pattern: Event Sourcing
 
 // Domain event
 export class CardDebitedEvent {
-  readonly type = 'CardDebited' as const;
+  readonly type = "CardDebited" as const;
   constructor(
     public readonly cardUid: string,
     public readonly amount: number,
@@ -67,7 +72,7 @@ export class Card {
   }
 
   private apply(event: DomainEvent): void {
-    if (event.type === 'CardDebited') {
+    if (event.type === "CardDebited") {
       this.balance -= (event as CardDebitedEvent).amount;
     }
     // ... other event types
@@ -86,12 +91,14 @@ export interface IEventStore {
 ```
 
 ## Rules
+
 - Events are **immutable** — never update or delete an event.
 - Aggregate must rebuild from events (`reconstitute`) — no direct field assignment from DB rows.
 - Separate the write side (event store) from the read side (projections) — combine with CQRS.
 - Event schema changes require versioned migration strategies (upcasting).
 
 ## Antipatterns
+
 - Storing mutable state AND events (two sources of truth).
 - Using Event Sourcing for simple CRUD with no audit requirements (over-engineering — YAGNI).
 - Replaying all events on every request without snapshotting for large streams.

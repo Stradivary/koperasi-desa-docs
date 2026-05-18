@@ -9,13 +9,13 @@
 
 ## Financial constraints
 
-| Constraint | Value | Rationale |
-|------------|-------|-----------|
-| Maximum storable balance | Rp 16,000,000 | Hard ceiling imposed by `uint32` storage format |
-| Recommended balance cap | Rp 5,000,000 | Backend policy limit; bounds worst-case card-loss exposure |
-| Single transaction maximum | Rp 1,000,000 | Enforced by terminal at write time |
-| Daily cumulative limit | Rp 2,000,000 | Backend-enforced at reconciliation |
-| Weekly cumulative limit | Rp 5,000,000 | Backend policy; triggers elevated review on breach |
+| Constraint                 | Value         | Rationale                                                  |
+| -------------------------- | ------------- | ---------------------------------------------------------- |
+| Maximum storable balance   | Rp 16,000,000 | Hard ceiling imposed by `uint32` storage format            |
+| Recommended balance cap    | Rp 5,000,000  | Backend policy limit; bounds worst-case card-loss exposure |
+| Single transaction maximum | Rp 1,000,000  | Enforced by terminal at write time                         |
+| Daily cumulative limit     | Rp 2,000,000  | Backend-enforced at reconciliation                         |
+| Weekly cumulative limit    | Rp 5,000,000  | Backend policy; triggers elevated review on breach         |
 
 > See [Tech Specs §9 Risk & Financial Limits](../tech-specs/9_risk-financial-limits.md) for enforcement mechanisms.
 

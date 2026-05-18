@@ -1,15 +1,18 @@
 # Factory / Abstract Factory Pattern
 
 ## Purpose
+
 Encapsulate object creation logic. Use when the exact type to instantiate depends on runtime conditions, configuration, or context.
 
 ## SDD Trigger
+
 - Multiple card types (standard, admin, merchant) → `CardFactory`
 - Multiple crypto providers (AES-GCM, future algorithm) → `CryptoProviderFactory`
 - Multiple terminal types → `TerminalFactory`
 - Any Data Spec entity with a `type` or `kind` discriminator field.
 
 ## Factory Method Template (TypeScript)
+
 ```ts
 // Spec: System Design §12 — Key trust model
 // Pattern: Factory Method
@@ -33,6 +36,7 @@ export class AesGcmProviderFactory extends CryptoProviderFactory {
 ```
 
 ## Static Factory Template (TypeScript)
+
 ```ts
 // Spec: System Design §4 — Card state machine initial state
 // Pattern: Static Factory
@@ -58,7 +62,9 @@ export class Card {
 ```
 
 ## Abstract Factory (Multiple Related Objects)
+
 Use when a feature needs a consistent "family" of objects:
+
 ```ts
 export interface ICardInfrastructureFactory {
   createRepository(): ICardRepository;
@@ -67,12 +73,19 @@ export interface ICardInfrastructureFactory {
 }
 
 export class NfcCardInfrastructureFactory implements ICardInfrastructureFactory {
-  createRepository() { return new NfcCardRepository(); }
-  createCryptoProvider() { return new AesGcmProvider(); }
-  createWriteStrategy() { return new BufferedWriteStrategy(); }
+  createRepository() {
+    return new NfcCardRepository();
+  }
+  createCryptoProvider() {
+    return new AesGcmProvider();
+  }
+  createWriteStrategy() {
+    return new BufferedWriteStrategy();
+  }
 }
 ```
 
 ## Antipatterns
+
 - Constructors with boolean flags controlling behavior (`new Card(uid, true, false, 'admin')`).
 - Switch/if-else chains outside a factory to decide which class to new up.

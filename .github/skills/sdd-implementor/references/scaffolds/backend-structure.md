@@ -3,6 +3,7 @@
 Use this reference when scaffolding a backend feature from SDD specs.
 
 ## NestJS (Clean Architecture + CQRS + Repository)
+
 ```
 src/
   modules/
@@ -44,6 +45,7 @@ src/
 ```
 
 ## Laravel (MVC + Service Layer + Repository)
+
 ```
 app/
   Http/
@@ -71,6 +73,7 @@ app/
 ```
 
 ## Spring Boot (Hexagonal + Repository)
+
 ```
 src/main/java/com/app/
   domain/
@@ -101,6 +104,7 @@ src/main/java/com/app/
 ```
 
 ## File Header Convention
+
 ```java
 // Feature: <feature-name>
 // Spec:    <layer> §<section> — <claim>
@@ -108,11 +112,12 @@ src/main/java/com/app/
 ```
 
 ## API Spec → Controller Mapping
+
 For each API Spec endpoint, generate one controller method:
 
-| API Spec Entry | HTTP Method | Controller Method | Command/Query |
-|----------------|-------------|-------------------|---------------|
-| POST /cards/{uid}/activate | POST | `activateCard()` | `ActivateCardCommand` |
-| GET /cards/{uid}/balance | GET | `getBalance()` | `GetCardBalanceQuery` |
-| POST /session | POST | `createSession()` | `CreateSessionCommand` |
-| DELETE /session/{id} | DELETE | `revokeSession()` | `RevokeSessionCommand` |
+| API Spec Entry             | HTTP Method | Controller Method | Command/Query          |
+| -------------------------- | ----------- | ----------------- | ---------------------- |
+| POST /cards/{uid}/activate | POST        | `activateCard()`  | `ActivateCardCommand`  |
+| GET /cards/{uid}/balance   | GET         | `getBalance()`    | `GetCardBalanceQuery`  |
+| POST /session              | POST        | `createSession()` | `CreateSessionCommand` |
+| DELETE /session/{id}       | DELETE      | `revokeSession()` | `RevokeSessionCommand` |
